@@ -1,0 +1,50 @@
+.toolbar-title {
+    flex: 1;
+    text-align: center;
+}
+
+.mat-toolbar {
+   padding: 0;
+   margin-bottom: 14px;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+.mat-column-numero {
+    width: 4em;
+    text-align: center;
+}
+
+.mat-column-nome {
+    min-width: 180px;
+}
+
+.mat-column-cor {
+    width: 20%;
+    text-align: center;
+}
+
+.mat-column-preco {
+    width: 20%;
+    text-align: center;
+}
+
+.mat-column-acao {
+    width: 10em;
+    text-align: center;
+}
+
+:host {
+  display: block;
+  padding: clamp(12px, 2vw, 24px);
+}

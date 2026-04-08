@@ -1,0 +1,104 @@
+<mat-card>
+
+  <mat-toolbar color="primary">
+    Cadastro de Boné
+  </mat-toolbar>
+
+  <mat-card-content>
+
+    <form [formGroup]="formGroup">
+
+      <!-- NOME -->
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome">
+      </mat-form-field>
+    
+      <!-- COR -->
+      <mat-form-field appearance="outline">
+        <mat-label>Cor</mat-label>
+        <input matInput formControlName="cor">
+      </mat-form-field>
+    
+      <!-- PREÇO -->
+      <mat-form-field appearance="outline">
+        <mat-label>Preço</mat-label>
+        <input matInput type="number"       formControlName="preco">
+      </mat-form-field>
+    
+      <!-- CATEGORIA ABA -->
+      <mat-form-field appearance="outline">
+        <mat-label>Categoria da Aba</mat-label>
+        <input matInput formControlName="categoriaAba">
+      </mat-form-field>
+    
+      <!-- TAMANHO ABA -->
+      <mat-form-field appearance="outline">
+        <mat-label>Tamanho da Aba</mat-label>
+        <input matInput type="number"       formControlName="tamanhoAba">
+      </mat-form-field>
+    
+      <!-- PROFUNDIDADE -->
+      <mat-form-field appearance="outline">
+        <mat-label>Profundidade</mat-label>
+        <input matInput type="number"       formControlName="profundidade">
+      </mat-form-field>
+    
+      <!-- CIRCUNFERÊNCIA -->
+      <mat-form-field appearance="outline">
+        <mat-label>Circunferência</mat-label>
+        <input matInput   formControlName="circunferencia">
+      </mat-form-field>
+    
+      <!-- MARCA -->
+      <mat-form-field appearance="outline">
+        <mat-label>Marca</mat-label>
+        <mat-select formControlName="marca">
+          <mat-option *ngFor="let marca of marcas" [value]="marca"> {{marca.nome}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <!-- MODELO -->
+      <mat-form-field appearance="outline">
+      <mat-label>Modelo</mat-label>
+      <mat-select formControlName="modelo">
+        <mat-option *ngFor="let modelo of modelos" [value]="modelo">
+        {{modelo.nome}}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+    
+      <!-- MATERIAL -->
+      <mat-form-field appearance="outline">
+      <mat-label>Material</mat-label>
+      <mat-select formControlName="material">
+        <mat-option *ngFor="let material of   materiais" [value]="material">
+        {{material.nome}}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+    
+      <!-- BORDADO -->
+      <mat-form-field appearance="outline">
+        <mat-label>Bordado</mat-label>
+        <mat-select formControlName="bordado">
+          <mat-option *ngFor="let bordado of bordados" [value]="bordado"> {{ bordado }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <br><br>
+    
+      <button mat-raised-button color="primary" (click) ="salvar()">
+      Salvar
+      </button>
+    
+      <button mat-raised-button routerLink="/bones">
+      Cancelar
+      </button>
+
+    </form>
+
+  </mat-card-content>
+</mat-card>

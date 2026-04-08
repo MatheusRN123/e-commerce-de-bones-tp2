@@ -1,0 +1,34 @@
+<mat-card class="card">
+  <mat-toolbar color="primary" class="toolbar-title">
+    Login
+  </mat-toolbar>
+
+  <mat-card-content>
+    <form [formGroup]="formGroup" class="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Login</mat-label>
+        <input matInput formControlName="login">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" formControlName="senha">
+      </mat-form-field>
+
+      @if (erro) {
+        <p class="erro">{{ erro }}</p>
+      }
+
+      <div class="actions">
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="entrar()"
+          [disabled]="formGroup.invalid">
+          Entrar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

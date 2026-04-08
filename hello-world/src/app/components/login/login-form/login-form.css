@@ -1,0 +1,35 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 18px;
+}
+
+.toolbar-title {
+  justify-content: center;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.erro {
+  color: #c62828;
+  margin: 0;
+}
