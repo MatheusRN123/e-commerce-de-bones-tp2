@@ -11,9 +11,9 @@ export interface Bone {
   tamanhoAba: number;
   profundidade: number;
   circunferencia: string;
-  bordado: Bordado;
+  bordado: string;
   nomeMarca: string;
-  estoque: Estoque | null;
+  quantidadeEstoque: number;
   nomeModelo: string;
   estampas: Estampa[] | null;
   preco: number;

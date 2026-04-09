@@ -47,6 +47,8 @@ export class BoneList implements OnInit {
     'modelo',
     'material',
     'bordado',
+    'estampas',
+    'estoque',
     'preco',
     'acao'
   ];
@@ -66,17 +68,19 @@ export class BoneList implements OnInit {
 
       this.dataSource.filterPredicate = (data: Bone, filter: string) => {
         const texto = (
-        (data.nome ?? '') +
-        (data.cor ?? '') +
-        (data.categoriaAba ?? '') +
-        (data.tamanhoAba ?? '') +
-        (data.profundidade ?? '') +
-        (data.circunferencia ?? '') +
-        (data.nomeMarca ?? '') +
-        (data.nomeModelo ?? '') +
-        (data.nomeMaterial ?? '') +
-        (data.bordado?.nome ?? '')
-      ).toLowerCase();
+          (data.nome ?? '') +
+          (data.cor ?? '') +
+          (data.categoriaAba ?? '') +
+          (data.tamanhoAba ?? '') +
+          (data.profundidade ?? '') +
+          (data.circunferencia ?? '') +
+          (data.nomeMarca ?? '') +
+          (data.nomeModelo ?? '') +
+          (data.nomeMaterial ?? '') +
+          (data.bordado ?? '') +
+          (data.quantidadeEstoque ?? '') +
+          (data.preco ?? '')
+        ).toLowerCase();
 
       return texto.includes(filter);
     };
@@ -89,8 +93,16 @@ export class BoneList implements OnInit {
     }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+    const value = (event.target as HTMLInputElement).value;
+    if (!value || value.trim() === '') {
+      this.boneService.findAll(this.page, this.pageSize).subscribe(data => {
+        this.dataSource.data = data;
+      });
+      return;
+    }
 
+    this.boneService.findByNome(value).subscribe(data => {
+      this.dataSource.data = data;
+    });
+  }
 }
