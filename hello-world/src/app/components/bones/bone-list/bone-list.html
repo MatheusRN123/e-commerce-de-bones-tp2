@@ -1,140 +1,186 @@
 <div class="page-container">
 
-  <mat-toolbar class="toolbar" color="primary">
+  <!-- TOOLBAR -->
+  <mat-toolbar class="toolbar">
     <div class="toolbar-content">
       <div class="title-group">
-        <span class="toolbar-title">Controle de Bonés</span>
-        <span class="toolbar-subtitle">Gerencie os produtos cadastrados</span>
+        <span class="toolbar-title">Controle de <span class="accent">Bonés</span></span>
+        <span class="toolbar-subtitle">Gestão de estoque</span>
       </div>
-
-      <button mat-fab color="accent" routerLink="/bones/new" aria-label="Adicionar boné">
+      <button mat-fab class="btn-add" routerLink="/bones/new" aria-label="Adicionar boné" matTooltip="Novo Boné">
         <mat-icon>add</mat-icon>
       </button>
     </div>
   </mat-toolbar>
 
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon"><mat-icon>inventory_2</mat-icon></div>
+      <div class="stat-info">
+        <span class="stat-label">Total de bonés</span>
+        <span class="stat-value">{{ totalRecords }}</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><mat-icon>layers</mat-icon></div>
+      <div class="stat-info">
+        <span class="stat-label">Nesta página</span>
+        <span class="stat-value">{{ dataSource.data.length }}</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><mat-icon>local_offer</mat-icon></div>
+      <div class="stat-info">
+        <span class="stat-label">Menor preço</span>
+        <span class="stat-value">{{ menorPreco() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><mat-icon>star</mat-icon></div>
+      <div class="stat-info">
+        <span class="stat-label">Maior preço</span>
+        <span class="stat-value">{{ maiorPreco() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTRO -->
   <div class="filter-card">
     <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>Pesquisar boné</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Boné Nike">
-      <mat-icon matSuffix>search</mat-icon>
+      <mat-label>Pesquisar boné por nome</mat-label>
+      <input
+        matInput
+        [(ngModel)]="termoBusca"
+        [ngModelOptions]="{ standalone: true }"
+        (keyup)="applyFilter($event)">
+    
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        class="search-button"
+        (click)="buscar()"
+        matTooltip="Buscar">
+        <mat-icon>search</mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
+  <!-- TABLE CARD -->
   <div class="table-card">
     <div class="table-wrapper">
-      <table mat-table [dataSource]="dataSource" class="custom-table mat-elevation-z2">
+      <table mat-table [dataSource]="dataSource" class="custom-table">
 
-        <!-- Numero -->
         <ng-container matColumnDef="numero">
-          <th mat-header-cell *matHeaderCellDef>N°</th>
-          <td mat-cell *matCellDef="let obj; let i = index"> {{ i + 1 }} </td>
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let obj; let i = index">{{ (page * pageSize) + i + 1 }}</td>
         </ng-container>
 
-        <!-- Nome -->
         <ng-container matColumnDef="nome">
           <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.nome }} </td>
+          <td mat-cell *matCellDef="let obj">{{ obj.nome }}</td>
         </ng-container>
 
-        <!-- Cor -->
         <ng-container matColumnDef="cor">
           <th mat-header-cell *matHeaderCellDef>Cor</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.cor }} </td>
+          <td mat-cell *matCellDef="let obj">
+            <span class="cor-pill">{{ obj.cor }}</span>
+          </td>
         </ng-container>
 
-        <!-- Categoria Aba -->
         <ng-container matColumnDef="categoriaAba">
-          <th mat-header-cell *matHeaderCellDef>Categoria Aba</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.categoriaAba }} </td>
+          <th mat-header-cell *matHeaderCellDef>Cat. Aba</th>
+          <td mat-cell *matCellDef="let obj">{{ obj.categoriaAba }}</td>
         </ng-container>
 
-        <!-- Tamanho da Aba -->
         <ng-container matColumnDef="tamanhoAba">
           <th mat-header-cell *matHeaderCellDef>Tam. Aba</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.tamanhoAba }} </td>
+          <td mat-cell *matCellDef="let obj">{{ obj.tamanhoAba }}</td>
         </ng-container>
 
-        <!-- Profundidade -->
         <ng-container matColumnDef="profundidade">
           <th mat-header-cell *matHeaderCellDef>Profundidade</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.profundidade }} </td>
+          <td mat-cell *matCellDef="let obj">{{ obj.profundidade }}</td>
         </ng-container>
 
-        <!-- Circunferência -->
         <ng-container matColumnDef="circunferencia">
           <th mat-header-cell *matHeaderCellDef>Circunferência</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.circunferencia }} </td>
+          <td mat-cell *matCellDef="let obj">{{ obj.circunferencia }}</td>
         </ng-container>
 
-        <!-- Marca -->
         <ng-container matColumnDef="marca">
           <th mat-header-cell *matHeaderCellDef>Marca</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.nomeMarca }} </td>
+          <td mat-cell *matCellDef="let obj">{{ obj.nomeMarca }}</td>
         </ng-container>
 
-        <!-- Modelo -->
         <ng-container matColumnDef="modelo">
           <th mat-header-cell *matHeaderCellDef>Modelo</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.nomeModelo }} </td>
+          <td mat-cell *matCellDef="let obj">{{ obj.nomeModelo }}</td>
         </ng-container>
 
-        <!-- Material -->
         <ng-container matColumnDef="material">
           <th mat-header-cell *matHeaderCellDef>Material</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.nomeMaterial }} </td>
+          <td mat-cell *matCellDef="let obj">{{ obj.nomeMaterial }}</td>
         </ng-container>
 
-        <!-- Bordado -->
         <ng-container matColumnDef="bordado">
           <th mat-header-cell *matHeaderCellDef>Bordado</th>
-          <td mat-cell *matCellDef="let obj"> {{ obj.bordado }} </td>
+          <td mat-cell *matCellDef="let obj">{{ obj.bordado }}</td>
         </ng-container>
 
-        <!-- Estampas -->
         <ng-container matColumnDef="estampas">
           <th mat-header-cell *matHeaderCellDef>Estampas</th>
           <td mat-cell *matCellDef="let obj">
-            <span *ngFor="let e of obj.estampas">
-              {{ e.nome }}<br>
-            </span>
+            <ng-container *ngIf="obj.estampas?.length; else semEstampa">
+              <span class="estampa-tag" *ngFor="let e of obj.estampas">{{ e.nome }}</span>
+            </ng-container>
+            <ng-template #semEstampa>
+              <span style="color: rgba(148,163,184,0.2); font-size:0.8rem;">—</span>
+            </ng-template>
           </td>
-        </ng-container>        
+        </ng-container>
 
-        <!-- Estoque -->
         <ng-container matColumnDef="estoque">
           <th mat-header-cell *matHeaderCellDef>Estoque</th>
           <td mat-cell *matCellDef="let obj">
-            {{ obj.quantidadeEstoque }}
+            <span class="stock-badge"
+              [ngClass]="{
+                'stock-ok':   obj.quantidadeEstoque > 5,
+                'stock-low':  obj.quantidadeEstoque > 0 && obj.quantidadeEstoque <= 5,
+                'stock-zero': obj.quantidadeEstoque === 0
+              }">
+              {{ obj.quantidadeEstoque }}
+            </span>
           </td>
         </ng-container>
 
-        <!-- Preço -->
         <ng-container matColumnDef="preco">
           <th mat-header-cell *matHeaderCellDef>Preço</th>
           <td mat-cell *matCellDef="let obj">
-            <span class="price-badge">{{ obj.preco | currency:'BRL' }}</span>
+            <span class="price-badge">{{ obj.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
           </td>
         </ng-container>
 
-        <!-- Ação -->
         <ng-container matColumnDef="acao">
           <th mat-header-cell *matHeaderCellDef>Ações</th>
           <td mat-cell *matCellDef="let obj">
             <div class="action-buttons">
               <button
                 mat-icon-button
-                color="primary"
+                class="btn-edit"
                 [routerLink]="['/bones/edit', obj.id]"
-                matTooltip="Editar">
+                matTooltip="Editar boné"
+                aria-label="Editar">
                 <mat-icon>edit</mat-icon>
               </button>
-
               <button
                 mat-icon-button
-                color="warn"
-                matTooltip="Excluir">
-                <mat-icon>delete</mat-icon>
+                class="btn-delete"
+                matTooltip="Excluir boné"
+                aria-label="Excluir"
+                (click)="confirmarExclusao(obj)">
+                <mat-icon>delete_outline</mat-icon>
               </button>
             </div>
           </td>
@@ -142,14 +188,25 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td [attr.colspan]="displayedColumns.length">
+            <div class="empty-state">
+              <mat-icon>search_off</mat-icon>
+              <p>Nenhum boné encontrado.</p>
+              <p style="font-size:0.82rem; opacity:0.6;">Tente outro termo ou cadastre um novo produto.</p>
+            </div>
+          </td>
+        </tr>
       </table>
     </div>
 
     <mat-paginator
-      [pageSizeOptions]="[2,4,8,16]"
+      [pageSizeOptions]="[2, 4, 8, 16]"
       [pageSize]="pageSize"
       [length]="totalRecords"
-      (page)="paginar($event)">
+      (page)="paginar($event)"
+      aria-label="Selecionar página de bonés">
     </mat-paginator>
   </div>
 

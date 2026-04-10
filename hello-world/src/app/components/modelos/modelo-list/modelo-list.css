@@ -168,21 +168,18 @@
   width: 100%;
 }
 
-/* Borda padrão mais visível */
 .filter-card .mdc-text-field--outlined .mdc-notched-outline__leading,
 .filter-card .mdc-text-field--outlined .mdc-notched-outline__notch,
 .filter-card .mdc-text-field--outlined .mdc-notched-outline__trailing {
   border-color: rgba(148,163,184,0.28) !important;
 }
 
-/* HOVER — bem mais visível (era 0.35, agora 0.75) */
 .filter-card .mdc-text-field--outlined:hover .mdc-notched-outline__leading,
 .filter-card .mdc-text-field--outlined:hover .mdc-notched-outline__notch,
 .filter-card .mdc-text-field--outlined:hover .mdc-notched-outline__trailing {
   border-color: rgba(56,189,248,0.75) !important;
 }
 
-/* FOCUSED */
 .filter-card .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
 .filter-card .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
 .filter-card .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
@@ -226,7 +223,7 @@
 /* ---- TABLE ---- */
 .custom-table {
   width: 100%;
-  min-width: 1400px;
+  min-width: 900px;
   border-collapse: separate;
   border-spacing: 0;
   background: transparent !important;
@@ -281,73 +278,38 @@
   font-weight: 500 !important;
 }
 
+.mat-column-categoria,
+.mat-column-estilo {
+  text-align: center;
+}
+
 .mat-column-acao {
   width: 120px;
   min-width: 120px;
   text-align: center;
 }
 
-.mat-column-cor,
-.mat-column-tamanhoAba,
-.mat-column-profundidade,
-.mat-column-circunferencia,
-.mat-column-estoque {
-  text-align: center;
-}
-
-/* ---- BADGES ---- */
-.price-badge {
+/* ---- TAGS ---- */
+.categoria-tag,
+.estilo-tag {
   display: inline-block;
-  background: rgba(56,189,248,0.08);
-  color: #38bdf8;
-  border: 1px solid rgba(56,189,248,0.2);
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: 6px;
   font-weight: 600;
   font-size: 0.83rem;
-  font-family: 'Syne', sans-serif;
   white-space: nowrap;
-  letter-spacing: 0.2px;
 }
 
-.stock-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 30px;
-  height: 24px;
-  padding: 0 8px;
-  border-radius: 6px;
-  font-size: 0.77rem;
-  font-weight: 600;
-  font-family: 'Syne', sans-serif;
-}
-
-.stock-ok   { background: rgba(34,211,238,0.1);  color: #22d3ee; border: 1px solid rgba(34,211,238,0.2); }
-.stock-low  { background: rgba(251,191,36,0.1);   color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
-.stock-zero { background: rgba(248,113,113,0.1);  color: #f87171; border: 1px solid rgba(248,113,113,0.2); }
-
-.cor-pill {
-  display: inline-block;
-  padding: 3px 10px;
+.categoria-tag {
   background: rgba(99,102,241,0.1);
-  border: 1px solid rgba(99,102,241,0.18);
-  border-radius: 6px;
-  font-size: 0.81rem;
   color: #a5b4fc;
-  white-space: nowrap;
+  border: 1px solid rgba(99,102,241,0.18);
 }
 
-.estampa-tag {
-  display: inline-block;
-  background: rgba(56,189,248,0.07);
-  color: #7dd3fc;
-  border: 1px solid rgba(56,189,248,0.15);
-  padding: 2px 8px;
-  border-radius: 5px;
-  font-size: 0.74rem;
-  margin: 1px 2px 1px 0;
-  white-space: nowrap;
+.estilo-tag {
+  background: rgba(34,211,238,0.1);
+  color: #22d3ee;
+  border: 1px solid rgba(34,211,238,0.2);
 }
 
 /* ---- BOTÕES DE AÇÃO ---- */
@@ -423,7 +385,6 @@ mat-paginator {
   font-family: 'DM Sans', sans-serif !important;
 }
 
-/* Setas — cor clara bem visível */
 mat-paginator .mat-mdc-icon-button {
   color: #93c5fd !important;
 }
@@ -437,21 +398,18 @@ mat-paginator .mat-mdc-icon-button:disabled {
   color: rgba(148,163,184,0.22) !important;
 }
 
-/* Garante que o ícone SVG interno herde a cor */
 mat-paginator .mat-mdc-icon-button .mat-icon,
 mat-paginator .mat-mdc-icon-button svg {
   fill: currentColor !important;
   color: inherit !important;
 }
 
-/* Label "1 – 2 of 2" */
 mat-paginator .mat-mdc-paginator-range-label {
   color: #cbd5e1 !important;
   font-weight: 500;
   font-size: 0.85rem;
 }
 
-/* Número dentro do select ("2", "4", "8"...) */
 mat-paginator .mat-mdc-select-value,
 mat-paginator .mat-mdc-select-value-text,
 mat-paginator .mat-select-value-text {
@@ -460,7 +418,6 @@ mat-paginator .mat-select-value-text {
   font-size: 0.88rem !important;
 }
 
-/* Seta dropdown do select */
 mat-paginator .mat-mdc-select-arrow,
 mat-paginator .mat-select-arrow {
   color: #93c5fd !important;
@@ -471,7 +428,6 @@ mat-paginator .mat-mdc-select-trigger {
   color: #e2e8f0 !important;
 }
 
-/* "Items per page" label */
 mat-paginator .mat-mdc-paginator-page-size-label {
   color: #94a3b8 !important;
   font-size: 0.82rem;

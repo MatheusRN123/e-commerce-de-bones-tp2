@@ -1,0 +1,142 @@
+<div class="page-container">
+
+  <!-- TOOLBAR -->
+  <mat-toolbar class="toolbar">
+    <div class="toolbar-content">
+      <div class="title-group">
+        <span class="toolbar-title">Controle de <span class="accent">Estoques</span></span>
+        <span class="toolbar-subtitle">Gestão de estoques</span>
+      </div>
+      <button mat-fab class="btn-add" routerLink="/estoques/new" aria-label="Adicionar estoque" matTooltip="Novo Estoque">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon"><mat-icon>inventory</mat-icon></div>
+      <div class="stat-info">
+        <span class="stat-label">Total de registros</span>
+        <span class="stat-value">{{ totalRecords }}</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><mat-icon>layers</mat-icon></div>
+      <div class="stat-info">
+        <span class="stat-label">Nesta página</span>
+        <span class="stat-value">{{ dataSource.data.length }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTRO -->
+  <div class="filter-card">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Pesquisar por ID do boné</mat-label>
+      <input
+        matInput
+        [(ngModel)]="termoBusca"
+        [ngModelOptions]="{ standalone: true }"
+        type="number"
+        (keyup)="applyFilter($event)">
+      
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        class="search-button"
+        (click)="buscar()"
+        matTooltip="Buscar">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="table-card">
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="dataSource" class="custom-table">
+
+        <ng-container matColumnDef="numero">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let obj; let i = index">{{ (page * pageSize) + i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="idBone">
+          <th mat-header-cell *matHeaderCellDef>ID Boné</th>
+          <td mat-cell *matCellDef="let obj">
+            <span class="id-badge">{{ obj.idBone }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantidade">
+          <th mat-header-cell *matHeaderCellDef>Quantidade</th>
+          <td mat-cell *matCellDef="let obj">
+            <span class="quantidade-badge" [ngClass]="{
+              'quantidade-ok': obj.quantidade > 10,
+              'quantidade-low': obj.quantidade > 0 && obj.quantidade <= 10,
+              'quantidade-zero': obj.quantidade === 0
+            }">
+              {{ obj.quantidade }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dataAtualizacao">
+          <th mat-header-cell *matHeaderCellDef>Data de Atualização</th>
+          <td mat-cell *matCellDef="let obj">
+            <span class="data-texto">{{ formatarData(obj.dataAtualizacao) }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acao">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let obj">
+            <div class="action-buttons">
+              <button
+                mat-icon-button
+                class="btn-edit"
+                [routerLink]="['/estoques/edit', obj.id]"
+                matTooltip="Editar estoque"
+                aria-label="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                class="btn-delete"
+                matTooltip="Excluir estoque"
+                aria-label="Excluir"
+                (click)="confirmarExclusao(obj)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td [attr.colspan]="displayedColumns.length">
+            <div class="empty-state">
+              <mat-icon>search_off</mat-icon>
+              <p>Nenhum estoque encontrado.</p>
+              <p style="font-size:0.82rem; opacity:0.6;">Tente outro ID ou cadastre um novo estoque.</p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator
+      [pageSizeOptions]="[2, 4, 8, 16]"
+      [pageSize]="pageSize"
+      [length]="totalRecords"
+      (page)="paginar($event)"
+      aria-label="Selecionar página de estoques">
+    </mat-paginator>
+  </div>
+
+</div>

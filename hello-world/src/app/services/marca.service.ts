@@ -10,8 +10,21 @@ export class MarcaService {
 
   constructor(private httpClient: HttpClient) {}
 
-  findAll(): Observable<Marca[]> {
-    return this.httpClient.get<Marca[]>(this.api);
+  findAll(page?: number, pageSize?: number): Observable<Marca[]> {
+    let params = {};
+
+    if(page !== undefined && pageSize !== undefined){
+      params = {
+        page: page?.toString(),
+        pageSize: pageSize?.toString()
+      }
+    }
+
+    return this.httpClient.get<Marca[]>(this.api, { params });
+  }
+
+  count(): Observable<number> {
+    return this.httpClient.get<number>(`${this.api}/count`);
   }
 
   findByNome(nome: string): Observable<Marca[]> {
@@ -30,7 +43,7 @@ export class MarcaService {
     return this.httpClient.put<void>(`${this.api}/${marca.id}`, marca);
   }
 
-  remove(id: number): Observable<void> {
+  delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.api}/${id}`);
   }
 }

@@ -44,7 +44,7 @@ export class BoneService {
     return this.httpClient.put<void>(`${this.api}/${bone.id}`, bone);
   }
 
-  remove(id: number): Observable<void> {
+  delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.api}/${id}`);
   }
 }

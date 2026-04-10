@@ -1,6 +1,4 @@
-import { Bordado } from './bordado.model';
 import { Estampa } from './estampa.model';
-import { Estoque } from './estoque.model';
 
 export interface Bone {
   id: number;

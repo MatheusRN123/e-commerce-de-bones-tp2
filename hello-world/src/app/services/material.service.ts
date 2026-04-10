@@ -10,8 +10,21 @@ export class MaterialService {
 
   constructor(private httpClient: HttpClient) {}
 
-  findAll(): Observable<Material[]> {
-    return this.httpClient.get<Material[]>(this.api);
+  findAll(page?: number, pageSize?: number): Observable<Material[]> {
+    let params = {};
+
+    if(page !== undefined && pageSize !== undefined){
+      params = {
+        page: page?.toString(),
+        pageSize: pageSize?.toString()
+      }
+    }
+
+    return this.httpClient.get<Material[]>(this.api, { params });
+  }
+
+  count(): Observable<number> {
+    return this.httpClient.get<number>(`${this.api}/count`);
   }
 
   findByNome(nome: string): Observable<Material[]> {
@@ -30,7 +43,7 @@ export class MaterialService {
     return this.httpClient.put<void>(`${this.api}/${material.id}`, material);
   }
 
-  remove(id: number): Observable<void> {
+  delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.api}/${id}`);
   }
 }

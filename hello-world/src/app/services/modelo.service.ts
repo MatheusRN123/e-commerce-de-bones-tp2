@@ -10,8 +10,21 @@ export class ModeloService {
 
   constructor(private httpClient: HttpClient) {}
 
-  findAll(): Observable<Modelo[]> {
-    return this.httpClient.get<Modelo[]>(this.api);
+  findAll(page?: number, pageSize?: number): Observable<Modelo[]> {
+    let params = {};
+
+    if(page !== undefined && pageSize !== undefined){
+      params = {
+        page: page?.toString(),
+        pageSize: pageSize?.toString()
+      }
+    }
+
+    return this.httpClient.get<Modelo[]>(this.api, { params });
+  }
+
+  count(): Observable<number> {
+    return this.httpClient.get<number>(`${this.api}/count`);
   }
 
   findByNome(nome: string): Observable<Modelo[]> {
@@ -30,7 +43,7 @@ export class ModeloService {
     return this.httpClient.put<void>(`${this.api}/${modelo.id}`, modelo);
   }
 
-  remove(id: number): Observable<void> {
+  delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.api}/${id}`);
   }
 }

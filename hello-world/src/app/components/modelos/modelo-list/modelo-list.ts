@@ -7,20 +7,19 @@ import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { Bone } from '../../../models/bone.model';
-import { BoneService } from '../../../services/bone.service';
+import { Modelo } from '../../../models/modelo.model';
+import { ModeloService } from '../../../services/modelo.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-bone-list',
+  selector: 'app-modelo-list',
   standalone: true,
   imports: [
     CommonModule,
-    CurrencyPipe,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -34,37 +33,27 @@ import { FormsModule } from '@angular/forms';
     MatSnackBarModule,
     FormsModule
   ],
-  templateUrl: './bone-list.html',
-  styleUrl: './bone-list.css',
+  templateUrl: './modelo-list.html',
+  styleUrl: './modelo-list.css',
 })
-export class BoneList implements OnInit {
+export class ModeloList implements OnInit {
   totalRecords = 0;
   page = 0;
-  pageSize = 2;
+  pageSize = 8;
   termoBusca: string = '';
 
   displayedColumns: string[] = [
     'numero',
     'nome',
-    'cor',
-    'categoriaAba',
-    'tamanhoAba',
-    'profundidade',
-    'circunferencia',
-    'marca',
-    'modelo',
-    'material',
-    'bordado',
-    'estampas',
-    'estoque',
-    'preco',
+    'categoria',
+    'estilo',
     'acao',
   ];
 
-  dataSource = new MatTableDataSource<Bone>([]);
+  dataSource = new MatTableDataSource<Modelo>([]);
 
   constructor(
-    private boneService: BoneService,
+    private modeloService: ModeloService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -74,12 +63,12 @@ export class BoneList implements OnInit {
   }
 
   carregarTotal(): void {
-    this.boneService.count().subscribe({
+    this.modeloService.count().subscribe({
       next: (total) => {
         this.totalRecords = total;
       },
       error: () => {
-        this.snackBar.open('Erro ao carregar a quantidade de bonés.', 'Fechar', {
+        this.snackBar.open('Erro ao carregar a quantidade de modelos.', 'Fechar', {
           duration: 3000,
         });
       },
@@ -87,12 +76,12 @@ export class BoneList implements OnInit {
   }
 
   carregarDados(): void {
-    this.boneService.findAll(this.page, this.pageSize).subscribe({
+    this.modeloService.findAll(this.page, this.pageSize).subscribe({
       next: (data) => {
         this.dataSource.data = data;
       },
       error: () => {
-        this.snackBar.open('Erro ao carregar os bonés.', 'Fechar', {
+        this.snackBar.open('Erro ao carregar os modelos.', 'Fechar', {
           duration: 3000,
         });
       },
@@ -115,32 +104,52 @@ export class BoneList implements OnInit {
     }
   }
 
-  menorPreco(): number {
-    const dados = this.dataSource.data;
-    if (!dados.length) return 0;
-    return Math.min(...dados.map((b) => b.preco ?? 0));
+  buscar(): void {
+    const value = this.termoBusca.trim().toLowerCase();
+
+    if (!value) {
+      this.page = 0;
+      this.carregarDados();
+      this.modeloService.count().subscribe({
+        next: (total) => {
+          this.totalRecords = total;
+        },
+        error: () => {
+          this.snackBar.open('Erro ao carregar a quantidade de modelos.', 'Fechar', {
+            duration: 3000,
+          });
+        }
+      });
+      return;
+    }
+
+    this.modeloService.findByNome(value).subscribe({
+      next: (data) => {
+        this.dataSource.data = [...data];
+        this.totalRecords = data.length;
+      },
+      error: () => {
+        this.snackBar.open('Erro ao buscar os modelos.', 'Fechar', {
+          duration: 3000,
+        });
+      }
+    });
   }
 
-  maiorPreco(): number {
-    const dados = this.dataSource.data;
-    if (!dados.length) return 0;
-    return Math.max(...dados.map((b) => b.preco ?? 0));
-  }
-
-  confirmarExclusao(bone: Bone): void {
-    const snack = this.snackBar.open(`Excluir "${bone.nome}"?`, 'Confirmar', {
+  confirmarExclusao(modelo: Modelo): void {
+    const snack = this.snackBar.open(`Excluir "${modelo.nome}"?`, 'Confirmar', {
       duration: 5000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
     });
 
-    snack.onAction().subscribe(() => this.excluir(bone));
+    snack.onAction().subscribe(() => this.excluir(modelo));
   }
 
-  private excluir(bone: Bone): void {
-    this.boneService.delete(bone.id).subscribe({
+  private excluir(modelo: Modelo): void {
+    this.modeloService.delete(modelo.id).subscribe({
       next: () => {
-        this.snackBar.open('Boné excluído com sucesso!', 'Fechar', {
+        this.snackBar.open('Modelo excluído com sucesso!', 'Fechar', {
           duration: 3000,
         });
 
@@ -152,42 +161,10 @@ export class BoneList implements OnInit {
         this.carregarDados();
       },
       error: () => {
-        this.snackBar.open('Erro ao excluir o boné.', 'Fechar', {
+        this.snackBar.open('Erro ao excluir o modelo.', 'Fechar', {
           duration: 3000,
         });
       },
-    });
-  }
-
-  buscar(): void {
-    const value = this.termoBusca.trim().toLowerCase();
-
-    if (!value) {
-      this.page = 0;
-      this.carregarDados();
-      this.boneService.count().subscribe({
-        next: (total) => {
-          this.totalRecords = total;
-        },
-        error: () => {
-          this.snackBar.open('Erro ao carregar a quantidade de bonés.', 'Fechar', {
-            duration: 3000,
-          });
-        }
-      });
-      return;
-    }
-
-    this.boneService.findByNome(value).subscribe({
-      next: (data) => {
-        this.dataSource.data = [...data];
-        this.totalRecords = data.length;
-      },
-      error: () => {
-        this.snackBar.open('Erro ao buscar os bonés.', 'Fechar', {
-          duration: 3000,
-        });
-      }
     });
   }
 }
