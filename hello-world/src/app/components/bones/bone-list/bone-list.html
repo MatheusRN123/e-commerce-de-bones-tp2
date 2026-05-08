@@ -45,41 +45,89 @@
     </div>
   </div>
 
-  <!-- FILTRO -->
+  <!-- FILTRO + CHIPS -->
   <div class="filter-card">
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>Pesquisar boné por nome</mat-label>
-      <input
-        matInput
-        [(ngModel)]="termoBusca"
-        [ngModelOptions]="{ standalone: true }"
-        (keyup)="applyFilter($event)">
-    
-      <button
-        mat-icon-button
-        matSuffix
-        type="button"
-        class="search-button"
-        (click)="buscar()"
-        matTooltip="Buscar">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+    <div class="filter-row">
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Pesquisar boné por nome</mat-label>
+        <input
+          matInput
+          [(ngModel)]="termoBusca"
+          [ngModelOptions]="{ standalone: true }"
+          (keyup)="applyFilter($event)"
+          (keyup.enter)="buscar()">
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          class="search-button"
+          (click)="buscar()"
+          matTooltip="Buscar">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <div class="filter-chips">
+        <button
+          class="chip"
+          [class.active]="filtroStatus === 'todos'"
+          (click)="setFiltroStatus('todos')">
+          Todos
+        </button>
+        <button
+          class="chip"
+          [class.active]="filtroStatus === 'ok'"
+          (click)="setFiltroStatus('ok')">
+          Em estoque
+        </button>
+        <button
+          class="chip"
+          [class.active]="filtroStatus === 'critico'"
+          (click)="setFiltroStatus('critico')">
+          Crítico
+        </button>
+        <button
+          class="chip"
+          [class.active]="filtroStatus === 'esgotado'"
+          (click)="setFiltroStatus('esgotado')">
+          Esgotado
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- TABLE CARD -->
   <div class="table-card">
+
+    <!-- Cabeçalho da tabela com contador e toggles de coluna -->
+    <div class="table-header-bar">
+      <span class="record-count">{{ dadosFiltrados.length }} registro(s) encontrado(s)</span>
+      <div class="col-toggle">
+        <button class="col-btn" [class.on]="showMedidas" (click)="showMedidas = !showMedidas; recalcularColunas()">
+          Medidas
+        </button>
+        <button class="col-btn" [class.on]="showEstampas" (click)="showEstampas = !showEstampas; recalcularColunas()">
+          Estampas
+        </button>
+        <button class="col-btn" [class.on]="showBordado" (click)="toggleColuna('bordado')">
+          Bordado
+        </button>
+      </div>
+    </div>
+
     <div class="table-wrapper">
       <table mat-table [dataSource]="dataSource" class="custom-table">
 
         <ng-container matColumnDef="numero">
-          <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let obj; let i = index">{{ (page * pageSize) + i + 1 }}</td>
+          <th mat-header-cell *matHeaderCellDef class="col-center">#</th>
+          <td mat-cell *matCellDef="let obj; let i = index" class="col-center td-num">
+            {{ (page * pageSize) + i + 1 }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="nome">
           <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let obj">{{ obj.nome }}</td>
+          <td mat-cell *matCellDef="let obj" class="td-nome">{{ obj.nome }}</td>
         </ng-container>
 
         <ng-container matColumnDef="cor">
@@ -95,18 +143,18 @@
         </ng-container>
 
         <ng-container matColumnDef="tamanhoAba">
-          <th mat-header-cell *matHeaderCellDef>Tam. Aba</th>
-          <td mat-cell *matCellDef="let obj">{{ obj.tamanhoAba }}</td>
+          <th mat-header-cell *matHeaderCellDef class="col-center">Tam. Aba</th>
+          <td mat-cell *matCellDef="let obj" class="col-center">{{ obj.tamanhoAba }}</td>
         </ng-container>
 
         <ng-container matColumnDef="profundidade">
-          <th mat-header-cell *matHeaderCellDef>Profundidade</th>
-          <td mat-cell *matCellDef="let obj">{{ obj.profundidade }}</td>
+          <th mat-header-cell *matHeaderCellDef class="col-center">Profundidade</th>
+          <td mat-cell *matCellDef="let obj" class="col-center">{{ obj.profundidade }}</td>
         </ng-container>
 
         <ng-container matColumnDef="circunferencia">
-          <th mat-header-cell *matHeaderCellDef>Circunferência</th>
-          <td mat-cell *matCellDef="let obj">{{ obj.circunferencia }}</td>
+          <th mat-header-cell *matHeaderCellDef class="col-center">Circunferência</th>
+          <td mat-cell *matCellDef="let obj" class="col-center">{{ obj.circunferencia }}</td>
         </ng-container>
 
         <ng-container matColumnDef="marca">
@@ -136,14 +184,14 @@
               <span class="estampa-tag" *ngFor="let e of obj.estampas">{{ e.nome }}</span>
             </ng-container>
             <ng-template #semEstampa>
-              <span style="color: rgba(148,163,184,0.2); font-size:0.8rem;">—</span>
+              <span class="td-empty">—</span>
             </ng-template>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="estoque">
-          <th mat-header-cell *matHeaderCellDef>Estoque</th>
-          <td mat-cell *matCellDef="let obj">
+          <th mat-header-cell *matHeaderCellDef class="col-center">Estoque</th>
+          <td mat-cell *matCellDef="let obj" class="col-center">
             <span class="stock-badge"
               [ngClass]="{
                 'stock-ok':   obj.quantidadeEstoque > 5,
@@ -163,8 +211,8 @@
         </ng-container>
 
         <ng-container matColumnDef="acao">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let obj">
+          <th mat-header-cell *matHeaderCellDef class="col-center">Ações</th>
+          <td mat-cell *matCellDef="let obj" class="col-center">
             <div class="action-buttons">
               <button
                 mat-icon-button
@@ -194,7 +242,7 @@
             <div class="empty-state">
               <mat-icon>search_off</mat-icon>
               <p>Nenhum boné encontrado.</p>
-              <p style="font-size:0.82rem; opacity:0.6;">Tente outro termo ou cadastre um novo produto.</p>
+              <p class="empty-sub">Tente outro termo ou cadastre um novo produto.</p>
             </div>
           </td>
         </tr>
@@ -208,6 +256,6 @@
       (page)="paginar($event)"
       aria-label="Selecionar página de bonés">
     </mat-paginator>
-  </div>
 
+  </div>
 </div>

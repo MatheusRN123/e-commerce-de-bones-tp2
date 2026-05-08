@@ -1,1 +1,98 @@
-<router-outlet />
+<div class="app-shell" [class.sidebar-open]="sidebarOpen">
+  <aside class="app-sidebar">
+
+    <div class="sidebar-header">
+      <button
+        class="hamburger"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="sidebarOpen ? 'Fechar menu' : 'Abrir menu'">
+
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      @if (sidebarOpen) {
+        <span class="brand">
+          <span class="brand-accent">Boné</span>Store
+        </span>
+      }
+    </div>
+
+    <!-- MENU ABERTO -->
+    @if (sidebarOpen) {
+
+      <nav class="nav-links">
+
+        <a routerLink="/menu" routerLinkActive="active">
+          Catálogo
+        </a>
+
+        <a routerLink="/bones" routerLinkActive="active">
+          Bonés
+        </a>
+
+        <a routerLink="/marcas" routerLinkActive="active">
+          Marcas
+        </a>
+
+        <a routerLink="/materiais" routerLinkActive="active">
+          Materiais
+        </a>
+
+        <a routerLink="/modelos" routerLinkActive="active">
+          Modelos
+        </a>
+
+        <a routerLink="/estoques" routerLinkActive="active">
+          Estoques
+        </a>
+
+        <a routerLink="/estampas" routerLinkActive="active">
+          Estampas
+        </a>
+
+      </nav>
+
+    } @else {
+
+      <!-- MENU FECHADO -->
+      <nav class="nav-icons">
+
+        <a routerLink="/menu" routerLinkActive="active" title="Catálogo">
+          📦
+        </a>
+
+        <a routerLink="/bones" routerLinkActive="active" title="Bonés">
+          🧢
+        </a>
+
+        <a routerLink="/marcas" routerLinkActive="active" title="Marcas">
+          🏷️
+        </a>
+
+        <a routerLink="/materiais" routerLinkActive="active" title="Materiais">
+          🌐
+        </a>
+
+        <a routerLink="/modelos" routerLinkActive="active" title="Modelos">
+          📄
+        </a>
+
+        <a routerLink="/estoques" routerLinkActive="active" title="Estoques">
+          📋
+        </a>
+
+        <a routerLink="/estampas" routerLinkActive="active" title="Estampas">
+          🎨
+        </a>
+
+      </nav>
+    }
+
+  </aside>
+
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

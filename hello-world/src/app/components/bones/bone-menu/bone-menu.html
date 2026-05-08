@@ -1,0 +1,45 @@
+<section class="bone-menu-page">
+  <header class="page-header">
+    <div class="header-text">
+      <h1>Catálogo de <span class="accent">Bonés</span></h1>
+      <p>Escolha seu boné favorito com preço e imagem.</p>
+    </div>
+    <div class="header-badge">{{ bones.length }} itens</div>
+  </header>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <span>Carregando bonés...</span>
+  </div>
+
+  <div class="cards-grid" *ngIf="!isLoading && bones.length">
+    <article class="product-card" *ngFor="let bone of bones">
+      <div class="card-image-wrap">
+        <img [src]="getImage(bone)" [alt]="bone.nome" />
+        <div class="card-price-badge">
+          {{ bone.preco | currency:'BRL':'symbol':'1.2-2' }}
+        </div>
+      </div>
+      <div class="card-body">
+        <h2>{{ bone.nome }}</h2>
+        <div class="card-tags">
+          <span class="tag" *ngIf="bone.nomeMarca">{{ bone.nomeMarca }}</span>
+          <span class="tag tag-model" *ngIf="bone.nomeModelo">{{ bone.nomeModelo }}</span>
+        </div>
+        <div class="card-details">
+          <span *ngIf="bone.cor">🎨 {{ bone.cor }}</span>
+          <span *ngIf="bone.nomeMaterial">🧵 {{ bone.nomeMaterial }}</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div *ngIf="!isLoading && !bones.length" class="empty-state">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.4">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <p>Nenhum boné encontrado para exibir.</p>
+  </div>
+</section>

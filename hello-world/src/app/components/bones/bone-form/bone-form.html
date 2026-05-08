@@ -1,124 +1,160 @@
 <div class="page-container">
-  <mat-card class="card">
+  <div class="form-card">
 
-    <mat-toolbar color="primary" class="toolbar">
-      <div class="toolbar-content">
-        <div class="title-group">
-          <span class="toolbar-title">Cadastro de Boné</span>
-          <span class="toolbar-subtitle">Preencha os dados do produto</span>
+    <div class="form-header">
+      <div class="header-left">
+        <h1>Cadastro de <span class="accent">Boné</span></h1>
+        <p>Preencha os dados do produto abaixo</p>
+      </div>
+      <button class="btn-cancel-top" type="button" routerLink="/bones">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+        Cancelar
+      </button>
+    </div>
+
+    <form [formGroup]="formGroup" class="form">
+
+      <!-- SEÇÃO: IDENTIFICAÇÃO -->
+      <div class="section">
+        <span class="section-label">Identificação</span>
+        <div class="fields-row">
+          <div class="field col-2">
+            <label for="nome">Nome do Boné</label>
+            <input id="nome" type="text" formControlName="nome" placeholder="Ex: Boné Aba Curva Premium" />
+          </div>
+          <div class="field col-1">
+            <label for="cor">Cor</label>
+            <input id="cor" type="text" formControlName="cor" placeholder="Ex: Preto" />
+          </div>
         </div>
       </div>
-    </mat-toolbar>
 
-    <mat-card-content>
-      <form [formGroup]="formGroup" class="form">
+      <div class="divider"></div>
 
-        <div class="grid">
-          <!-- NOME -->
-          <mat-form-field appearance="outline">
-            <mat-label>Nome</mat-label>
-            <input matInput formControlName="nome">
-            <mat-icon matSuffix>style</mat-icon>
-          </mat-form-field>
-
-          <!-- COR -->
-          <mat-form-field appearance="outline">
-            <mat-label>Cor</mat-label>
-            <input matInput formControlName="cor">
-            <mat-icon matSuffix>palette</mat-icon>
-          </mat-form-field>
-
-          <!-- PREÇO -->
-          <mat-form-field appearance="outline">
-            <mat-label>Preço</mat-label>
-            <input matInput type="number" formControlName="preco">
-            <span matTextPrefix>R$&nbsp;</span>
-          </mat-form-field>
-
-          <!-- CATEGORIA ABA -->
-          <mat-form-field appearance="outline">
-            <mat-label>Categoria da Aba</mat-label>
-            <input matInput formControlName="categoriaAba">
-            <mat-icon matSuffix>category</mat-icon>
-          </mat-form-field>
-
-          <!-- TAMANHO ABA -->
-          <mat-form-field appearance="outline">
-            <mat-label>Tamanho da Aba</mat-label>
-            <input matInput type="number" formControlName="tamanhoAba">
-            <mat-icon matSuffix>straighten</mat-icon>
-          </mat-form-field>
-
-          <!-- PROFUNDIDADE -->
-          <mat-form-field appearance="outline">
-            <mat-label>Profundidade</mat-label>
-            <input matInput type="number" formControlName="profundidade">
-            <mat-icon matSuffix>height</mat-icon>
-          </mat-form-field>
-
-          <!-- CIRCUNFERÊNCIA -->
-          <mat-form-field appearance="outline">
-            <mat-label>Circunferência</mat-label>
-            <input matInput formControlName="circunferencia">
-            <mat-icon matSuffix>radio_button_unchecked</mat-icon>
-          </mat-form-field>
-
-          <!-- MARCA -->
-          <mat-form-field appearance="outline">
-            <mat-label>Marca</mat-label>
-            <mat-select formControlName="marca">
-              <mat-option *ngFor="let marca of marcas" [value]="marca">
-                {{ marca.nome }}
-              </mat-option>
-            </mat-select>
-            <mat-icon matSuffix>branding_watermark</mat-icon>
-          </mat-form-field>
-
-          <!-- MODELO -->
-          <mat-form-field appearance="outline">
-            <mat-label>Modelo</mat-label>
-            <mat-select formControlName="modelo">
-              <mat-option *ngFor="let modelo of modelos" [value]="modelo">
-                {{ modelo.nome }}
-              </mat-option>
-            </mat-select>
-            <mat-icon matSuffix>inventory_2</mat-icon>
-          </mat-form-field>
-
-          <!-- MATERIAL -->
-          <mat-form-field appearance="outline">
-            <mat-label>Material</mat-label>
-            <mat-select formControlName="material">
-              <mat-option *ngFor="let material of materiais" [value]="material">
-                {{ material.nome }}
-              </mat-option>
-            </mat-select>
-            <mat-icon matSuffix>checkroom</mat-icon>
-          </mat-form-field>
-
-          <!-- BORDADO -->
-          <mat-form-field appearance="outline">
-            <mat-label>Bordado</mat-label>
-            <mat-select formControlName="bordado">
-              <mat-option *ngFor="let bordado of bordados" [value]="bordado">
-                {{ bordado }}
-              </mat-option>
-            </mat-select>
-            <mat-icon matSuffix>gesture</mat-icon>
-          </mat-form-field>
+      <!-- SEÇÃO: DIMENSÕES -->
+      <div class="section">
+        <span class="section-label">Dimensões</span>
+        <div class="fields-row">
+          <div class="field col-1">
+            <label for="categoriaAba">Categoria da Aba</label>
+            <input id="categoriaAba" type="text" formControlName="categoriaAba" placeholder="Ex: Curva" />
+          </div>
+          <div class="field col-1">
+            <label for="tamanhoAba">Tamanho da Aba (cm)</label>
+            <input id="tamanhoAba" type="number" formControlName="tamanhoAba" placeholder="Ex: 7" />
+          </div>
+          <div class="field col-1">
+            <label for="profundidade">Profundidade (cm)</label>
+            <input id="profundidade" type="number" formControlName="profundidade" placeholder="Ex: 15" />
+          </div>
         </div>
-
-        <div class="actions">
-          <button mat-stroked-button routerLink="/bones" type="button">
-            Cancelar
-          </button>
-
-          <button mat-flat-button color="primary" type="button" (click)="salvar()">
-            Salvar
-          </button>
+        <div class="fields-row" style="margin-top: 14px;">
+          <div class="field col-2">
+            <label for="circunferencia">Circunferência</label>
+            <input id="circunferencia" type="text" formControlName="circunferencia" placeholder="Ex: 54-60cm" />
+          </div>
+          <div class="field col-1">
+            <label for="preco">Preço (R$)</label>
+            <div class="input-prefix-wrap">
+              <span class="input-prefix">R$</span>
+              <input id="preco" type="number" formControlName="preco" placeholder="0,00" class="with-prefix" />
+            </div>
+          </div>
         </div>
+      </div>
 
-      </form>
-    </mat-card-content>
-  </mat-card>
+      <div class="divider"></div>
+
+      <!-- SEÇÃO: ESPECIFICAÇÕES -->
+      <div class="section">
+        <span class="section-label">Especificações</span>
+        <div class="fields-row">
+          <div class="field col-1">
+            <label for="marca">Marca</label>
+            <select id="marca" formControlName="marca">
+              <option [ngValue]="null" disabled>Selecione...</option>
+              <option *ngFor="let m of marcas" [ngValue]="m">{{ m.nome }}</option>
+            </select>
+          </div>
+          <div class="field col-1">
+            <label for="modelo">Modelo</label>
+            <select id="modelo" formControlName="modelo">
+              <option [ngValue]="null" disabled>Selecione...</option>
+              <option *ngFor="let m of modelos" [ngValue]="m">{{ m.nome }}</option>
+            </select>
+          </div>
+          <div class="field col-1">
+            <label for="material">Material</label>
+            <select id="material" formControlName="material">
+              <option [ngValue]="null" disabled>Selecione...</option>
+              <option *ngFor="let m of materiais" [ngValue]="m">{{ m.nome }}</option>
+            </select>
+          </div>
+          <div class="field col-1">
+            <label for="bordado">Bordado</label>
+            <select id="bordado" formControlName="bordado">
+              <option [ngValue]="null" disabled>Selecione...</option>
+              <option *ngFor="let b of bordados" [ngValue]="b">{{ b }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- SEÇÃO: ESTOQUE E ESTAMPAS -->
+      <div class="section">
+        <span class="section-label">Estoque e Estampas</span>
+        <div class="fields-row">
+
+          <div class="field col-1">
+            <label for="quantidadeEstoque">Quantidade em Estoque</label>
+            <input
+              id="quantidadeEstoque"
+              type="number"
+              formControlName="quantidadeEstoque"
+              placeholder="Ex: 10"
+              min="1"
+            />
+            <span class="field-hint" *ngIf="formGroup.get('quantidadeEstoque')?.touched && formGroup.get('quantidadeEstoque')?.errors?.['min']">
+              Mínimo de 1 unidade.
+            </span>
+          </div>
+
+          <div class="field col-2">
+            <label>Estampas</label>
+            <div class="estampas-list" *ngIf="estampas.length; else semEstampas">
+              <label class="estampa-item" *ngFor="let e of estampas">
+                <input
+                  type="checkbox"
+                  [value]="e.id"
+                  (change)="toggleEstampa(e.id, $event)"
+                  [checked]="estampasSelecionadas.includes(e.id)"
+                />
+                <span>{{ e.nome }}</span>
+              </label>
+            </div>
+            <ng-template #semEstampas>
+              <div class="estampas-empty">Nenhuma estampa cadastrada.</div>
+            </ng-template>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="actions">
+        <button class="btn-cancel" type="button" routerLink="/bones">Cancelar</button>
+        <button class="btn-save" type="button" (click)="salvar()" [disabled]="formGroup.invalid">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Salvar Boné
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>

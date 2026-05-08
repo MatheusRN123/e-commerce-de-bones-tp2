@@ -19,7 +19,7 @@ export class EstoqueService {
         pageSize: pageSize?.toString()
       }
     }
-
+      
     return this.httpClient.get<Estoque[]>(this.api, { params });
   }
 

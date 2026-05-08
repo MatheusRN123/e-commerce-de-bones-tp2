@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { BoneList } from './components/bones/bone-list/bone-list';
 import { BoneForm } from './components/bones/bone-form/bone-form';
+import { BoneMenu } from './components/bones/bone-menu/bone-menu';
 import { LoginComponent } from './components/login/login-form/login-form';
 import { authGuard } from './components/login/auth.guard';
 import { MarcaList } from './components/marcas/marca-list/marca-list';
@@ -12,6 +13,7 @@ import { EstampaList } from './components/estampas/estampa-list/estampa-list';
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     { path: '', redirectTo: 'login', pathMatch: 'full' },
+    {path: 'menu', component: BoneMenu, canActivate: [authGuard], title: 'Catálogo de Bonés'},
     {path: 'bones', component: BoneList, canActivate: [authGuard], title: 'Bones'},
     {path: 'bones/new', component: BoneForm, canActivate: [authGuard], title: 'Incluir Boné'},
     {path: 'marcas', component: MarcaList, canActivate: [authGuard], title: 'Marcas'},

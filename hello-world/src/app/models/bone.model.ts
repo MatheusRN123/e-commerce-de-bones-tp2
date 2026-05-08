@@ -3,6 +3,7 @@ import { Estampa } from './estampa.model';
 export interface Bone {
   id: number;
   nome: string;
+  imagemUrl?: string;
   cor: string;
   nomeMaterial: string;
   categoriaAba: string;
