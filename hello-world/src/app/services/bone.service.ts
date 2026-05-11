@@ -40,8 +40,8 @@ export class BoneService {
     return this.httpClient.post<Bone>(this. api, dto);
   }
 
-  update(bone: Bone): Observable<void> {
-    return this.httpClient.put<void>(`${this.api}/${bone.id}`, bone);
+  update(id: number, dto: any): Observable<any> {
+    return this.httpClient.put<void>(`${this.api}/${id}`, dto);
   }
 
   delete(id: number): Observable<void> {

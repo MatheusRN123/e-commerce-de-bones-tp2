@@ -76,6 +76,14 @@ export class BoneForm implements OnInit {
     this.estampaService.findAll().subscribe(data => this.estampas = data);
   }
 
+  /** Converte formato CONSTANTE_CASE para Formato Com Espaços */
+  formatarBordado(valor: string): string {
+    return valor
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
+
   toggleEstampa(id: number, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked) {

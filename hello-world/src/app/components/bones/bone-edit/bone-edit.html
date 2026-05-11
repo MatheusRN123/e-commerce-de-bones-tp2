@@ -3,8 +3,8 @@
 
     <div class="form-header">
       <div class="header-left">
-        <h1>Cadastro de <span class="accent">Boné</span></h1>
-        <p>Preencha os dados do produto abaixo</p>
+        <h1>Editar <span class="accent">Boné</span></h1>
+        <p>Atualize os dados do produto abaixo</p>
       </div>
       <button class="btn-cancel-top" type="button" routerLink="/bones">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -147,11 +147,12 @@
       <!-- ACTIONS -->
       <div class="actions">
         <button class="btn-cancel" type="button" routerLink="/bones">Cancelar</button>
-        <button class="btn-save" type="button" (click)="salvar()" [disabled]="formGroup.invalid">
+        <button class="btn-save" type="button" (click)="atualizar()" [disabled]="formGroup.invalid">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="20 6 9 17 4 12"/>
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
           </svg>
-          Salvar Boné
+          Atualizar Boné
         </button>
       </div>
 

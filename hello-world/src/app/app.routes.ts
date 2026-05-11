@@ -9,6 +9,7 @@ import { MaterialList } from './components/materiais/material-list/material-list
 import { ModeloList } from './components/modelos/modelo-list/modelo-list';
 import { EstoqueList } from './components/estoques/estoque-list/estoque-list';
 import { EstampaList } from './components/estampas/estampa-list/estampa-list';
+import { BoneEdit } from './components/bones/bone-edit/bone-edit';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -16,6 +17,7 @@ export const routes: Routes = [
     {path: 'menu', component: BoneMenu, canActivate: [authGuard], title: 'Catálogo de Bonés'},
     {path: 'bones', component: BoneList, canActivate: [authGuard], title: 'Bones'},
     {path: 'bones/new', component: BoneForm, canActivate: [authGuard], title: 'Incluir Boné'},
+    { path: 'bones/edit/:id', component: BoneEdit },
     {path: 'marcas', component: MarcaList, canActivate: [authGuard], title: 'Marcas'},
     {path: 'materiais', component: MaterialList, canActivate: [authGuard], title: 'Materiais'},
     {path: 'modelos', component: ModeloList, canActivate: [authGuard], title: 'Modelos'},

@@ -194,8 +194,8 @@
           <td mat-cell *matCellDef="let obj" class="col-center">
             <span class="stock-badge"
               [ngClass]="{
-                'stock-ok':   obj.quantidadeEstoque > 5,
-                'stock-low':  obj.quantidadeEstoque > 0 && obj.quantidadeEstoque <= 5,
+                'stock-ok':   obj.quantidadeEstoque > 10,
+                'stock-low':  obj.quantidadeEstoque > 0 && obj.quantidadeEstoque <= 10,
                 'stock-zero': obj.quantidadeEstoque === 0
               }">
               {{ obj.quantidadeEstoque }}

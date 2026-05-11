@@ -61,7 +61,7 @@ export class BoneList implements OnInit {
   termoBusca = '';
 
   // Estado dos toggles de coluna
-  showMedidas = true;
+  showMedidas = false;
   showEstampas = true;
   showBordado = true;
 
