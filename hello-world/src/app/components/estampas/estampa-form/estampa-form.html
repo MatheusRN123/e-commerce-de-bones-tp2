@@ -1,0 +1,122 @@
+<div class="page-container">
+  <div class="form-card">
+    <div class="form-header">
+      <div class="header-left">
+        <h1>{{ isEdit ? 'Editar' : 'Cadastro de' }} <span class="accent">Estampa</span></h1>
+        <p>Preencha os dados do tipo de estampa abaixo</p>
+      </div>
+      <button class="btn-cancel-top" type="button" routerLink="/estampas">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+        Cancelar
+      </button>
+    </div>
+
+    <form [formGroup]="form" class="form" (ngSubmit)="salvar()">
+      <div class="section" *ngIf="!isEdit">
+        <span class="section-label">Tipo da Estampa</span>
+        <div class="fields-row">
+          <div class="field col-1">
+            <label for="tipo">Tipo</label>
+            <div class="dropdown-wrap" [class.open]="dropdownOpen" (clickOutside)="dropdownOpen =           false">
+              <button type="button" class="dropdown-trigger" (click)="dropdownOpen = !dropdownOpen">
+                <span>{{ tipoLabel }}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"           stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="dropdown-menu">
+                <button
+                  type="button"
+                  class="dropdown-item"
+                  *ngFor="let t of tipos"
+                  [class.active]="form.get('tipo')?.value === t.value"
+                  (click)="selecionarTipo(t.value); dropdownOpen = false">
+                  {{ t.label }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="isEdit">
+        <span class="section-label">Tipo da Estampa</span>
+        <div class="fields-row">
+          <div class="field col-1 type-display">
+            <span class="static-label">Tipo</span>
+            <span>{{ form.get('tipo')?.value === 'DIGITAL' ? 'Digital' : 'Bordada' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section">
+        <span class="section-label">Informações gerais</span>
+        <div class="fields-row">
+          <div class="field col-2">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" formControlName="nome" placeholder="Ex: Estampa Logo" />
+          </div>
+          <div class="field col-1">
+            <label for="posicao">Posição</label>
+            <input id="posicao" type="text" formControlName="posicao" placeholder="Ex: Frente" />
+          </div>
+        </div>
+        <div class="fields-row" style="margin-top: 14px;">
+          <div class="field col-2">
+            <label for="descricao">Descrição</label>
+            <input id="descricao" type="text" formControlName="descricao" placeholder="Ex: Logotipo em alta definição" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section" *ngIf="form.get('tipo')?.value === 'DIGITAL'">
+        <span class="section-label">Detalhes da Estampa Digital</span>
+        <div class="fields-row">
+          <div class="field col-2">
+            <label for="resolucao">Resolução</label>
+            <input id="resolucao" type="text" formControlName="resolucao" placeholder="Ex: 300 DPI" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="form.get('tipo')?.value === 'BORDADA'">
+        <span class="section-label">Detalhes da Estampa Bordada</span>
+        <div class="fields-row">
+          <div class="field col-1">
+            <label for="corLinha">Cor da Linha</label>
+            <input id="corLinha" type="text" formControlName="corLinha" placeholder="Ex: Branco" />
+          </div>
+          <div class="field col-1">
+            <label for="quantCores">Quantidade de Cores</label>
+            <input id="quantCores" type="number" formControlName="quantCores" placeholder="Ex: 4" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="actions">
+        <button class="btn-cancel" type="button" routerLink="/estampas">Cancelar</button>
+        <button class="btn-save" type="submit" [disabled]="form.invalid">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <ng-container *ngIf="!isEdit">
+              <polyline points="20 6 9 17 4 12"/>
+            </ng-container>
+            <ng-container *ngIf="isEdit">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </ng-container>
+          </svg>
+          {{ isEdit ? 'Atualizar Estampa' : 'Salvar Estampa' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

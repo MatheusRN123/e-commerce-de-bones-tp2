@@ -1,0 +1,52 @@
+<div class="page-container">
+  <div class="form-card">
+    <div class="form-header">
+      <div class="header-left">
+        <h1>{{ isEdit ? 'Editar' : 'Cadastro de' }} <span class="accent">Modelo</span></h1>
+        <p>{{ isEdit ? 'Atualize os dados do modelo.' : 'Preencha os dados do modelo abaixo.' }}</p>
+      </div>
+      <button class="btn-cancel-top" type="button" routerLink="/modelos">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+        Cancelar
+      </button>
+    </div>
+
+    <form [formGroup]="formGroup" class="form">
+      <div class="section">
+        <span class="section-label">Informações do Modelo</span>
+        <div class="fields-row">
+          <div class="field col-1">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" formControlName="nome" placeholder="Ex: Snapback" />
+          </div>
+          <div class="field col-1">
+            <label for="categoria">Categoria</label>
+            <input id="categoria" type="text" formControlName="categoria" placeholder="Ex: Casual" />
+          </div>
+          <div class="field col-1">
+            <label for="estilo">Estilo</label>
+            <input id="estilo" type="text" formControlName="estilo" placeholder="Ex: Streetwear" />
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-cancel" type="button" routerLink="/modelos">Cancelar</button>
+        <button class="btn-save" type="button" (click)="salvar()" [disabled]="formGroup.invalid">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <ng-container *ngIf="!isEdit">
+              <polyline points="20 6 9 17 4 12"/>
+            </ng-container>
+            <ng-container *ngIf="isEdit">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </ng-container>
+          </svg>
+          {{ isEdit ? 'Atualizar Modelo' : 'Salvar Modelo' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BoneService } from '../../../services/bone.service';
+import { ArquivoService } from '../../../services/arquivo.service';
 import { MarcaService } from '../../../services/marca.service';
 import { ModeloService } from '../../../services/modelo.service';
 import { MaterialService } from '../../../services/material.service';
@@ -28,11 +29,16 @@ export class BoneEdit implements OnInit {
   estampasSelecionadas: number[] = [];
   bordados: string[] = ['COM_BORDADO', 'SEM_BORDADO', 'PERSONALIZADO'];
 
+  imagemFid: string | null = null;
+  previewImagem: string | null = null;
+  uploadandoImagem = false;
+
   private boneId!: number;
 
   constructor(
     private formBuilder: FormBuilder,
     private boneService: BoneService,
+    private arquivoService: ArquivoService,
     private marcaService: MarcaService,
     private modeloService: ModeloService,
     private materialService: MaterialService,
@@ -56,11 +62,12 @@ export class BoneEdit implements OnInit {
       marca:             [null, Validators.required],
       modelo:            [null, Validators.required],
       preco:             ['', Validators.required],
-      quantidadeEstoque: ['', [Validators.required, Validators.min(1)]]
+      quantidadeEstoque: ['', [Validators.required, Validators.min(1)]],
+      imagemFid: [null, Validators.required]
     });
 
     // Carrega listas e depois preenche os campos com os dados do boné
-    this.carregarListas().then(() => this.carregarBoне());
+    this.carregarListas().then(() => this.carregarBone());
   }
 
   /** Converte formato CONSTANTE_CASE para Formato Com Espaços */
@@ -92,10 +99,10 @@ export class BoneEdit implements OnInit {
     });
   }
 
-  private carregarBoне(): void {
+  private carregarBone(): void {
     this.boneService.findById(this.boneId).subscribe(bone => {
       console.log('Bone carregado:', bone);
-      
+
       // Encontra os objetos completos nas listas comparando pelos nomes
       const marca    = this.marcas.find(m => m.nome === bone.nomeMarca);
       const modelo   = this.modelos.find(m => m.nome === bone.nomeModelo);
@@ -118,6 +125,41 @@ export class BoneEdit implements OnInit {
 
       // Pré-seleciona as estampas já associadas ao boné
       this.estampasSelecionadas = bone.estampas?.map((e: Estampa) => e.id) ?? [];
+
+      // Carrega a imagem existente (ajuste os campos conforme o retorno da sua API)
+      if (bone.imagemFid) {
+        this.previewImagem = bone.imagemFid;
+        this.imagemFid = bone.imagemFid;
+        this.formGroup.get('imagemFid')?.setValue(bone.imagemFid);  // ← novo
+      }
+    });
+  }
+
+  onImagemSelecionada(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const arquivo = input.files?.[0];
+
+    if (!arquivo) return;
+
+    // Criar preview local imediato
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewImagem = reader.result as string;
+    };
+    reader.readAsDataURL(arquivo);
+
+    // Fazer upload para o servidor
+    this.uploadandoImagem = true;
+    this.arquivoService.upload(arquivo).subscribe({
+      next: (resposta) => {
+        this.imagemFid = resposta.fid;
+        this.formGroup.get('imagemFid')?.setValue(resposta.fid);
+        this.uploadandoImagem = false;
+      },
+      error: () => {
+        this.uploadandoImagem = false;
+        alert('Erro ao fazer upload da imagem');
+      }
     });
   }
 
@@ -145,11 +187,28 @@ export class BoneEdit implements OnInit {
       idModelo:          form.modelo.id,
       quantidadeEstoque: form.quantidadeEstoque,
       idsEstampas:       this.estampasSelecionadas,
-      preco:             form.preco
+      preco:             form.preco,
+      imagemFid:         this.imagemFid ?? undefined
     };
 
     this.boneService.update(this.boneId, dto).subscribe(() => {
       this.router.navigateByUrl('/bones');
     });
+  }
+
+  dropdownAberto: string | null = null;
+  
+  @HostListener('document:click')
+  fecharDropdowns(): void {
+    this.dropdownAberto = null;
+  }
+  
+  toggleDropdown(campo: string): void {
+    this.dropdownAberto = this.dropdownAberto === campo ? null : campo;
+  }
+  
+  selecionarOpcao(campo: string, valor: any): void {
+    this.formGroup.get(campo)?.setValue(valor);
+    this.dropdownAberto = null;
   }
 }

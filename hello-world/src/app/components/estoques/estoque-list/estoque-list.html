@@ -7,9 +7,6 @@
         <span class="toolbar-title">Controle de <span class="accent">Estoques</span></span>
         <span class="toolbar-subtitle">Gestão de estoques</span>
       </div>
-      <button mat-fab class="btn-add" routerLink="/estoques/new" aria-label="Adicionar estoque" matTooltip="Novo Estoque">
-        <mat-icon>add</mat-icon>
-      </button>
     </div>
   </mat-toolbar>
 
@@ -40,8 +37,8 @@
         [(ngModel)]="termoBusca"
         [ngModelOptions]="{ standalone: true }"
         type="number"
-        (keyup)="applyFilter($event)">
-      
+        (keyup)="applyFilter($event)"
+        (keyup.enter)="buscar()">
       <button
         mat-icon-button
         matSuffix
@@ -57,13 +54,15 @@
   <!-- TABLE CARD -->
   <div class="table-card">
     <div class="table-wrapper">
-      <table mat-table [dataSource]="dataSource" class="custom-table">
+      <table mat-table [dataSource]="dataSource" class="custom-table" multiTemplateDataRows>
 
+        <!-- Número -->
         <ng-container matColumnDef="numero">
           <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let obj; let i = index">{{ (page * pageSize) + i + 1 }}</td>
+          <td mat-cell *matCellDef="let obj; let i = index">{{ getRowNumber(i, obj) }}</td>
         </ng-container>
 
+        <!-- ID Boné -->
         <ng-container matColumnDef="idBone">
           <th mat-header-cell *matHeaderCellDef>ID Boné</th>
           <td mat-cell *matCellDef="let obj">
@@ -71,6 +70,7 @@
           </td>
         </ng-container>
 
+        <!-- Quantidade -->
         <ng-container matColumnDef="quantidade">
           <th mat-header-cell *matHeaderCellDef>Quantidade</th>
           <td mat-cell *matCellDef="let obj">
@@ -84,6 +84,7 @@
           </td>
         </ng-container>
 
+        <!-- Data de Atualização -->
         <ng-container matColumnDef="dataAtualizacao">
           <th mat-header-cell *matHeaderCellDef>Data de Atualização</th>
           <td mat-cell *matCellDef="let obj">
@@ -91,39 +92,119 @@
           </td>
         </ng-container>
 
+        <!-- Ações -->
         <ng-container matColumnDef="acao">
           <th mat-header-cell *matHeaderCellDef>Ações</th>
           <td mat-cell *matCellDef="let obj">
             <div class="action-buttons">
+              <!-- Editar -->
+                <!-- Toggle painel de quantidade -->
               <button
                 mat-icon-button
-                class="btn-edit"
-                [routerLink]="['/estoques/edit', obj.id]"
-                matTooltip="Editar estoque"
-                aria-label="Editar">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                class="btn-delete"
-                matTooltip="Excluir estoque"
-                aria-label="Excluir"
-                (click)="confirmarExclusao(obj)">
-                <mat-icon>delete_outline</mat-icon>
+                class="btn-qty"
+                [class.btn-qty-active]="expandedRow === obj"
+                matTooltip="Gerenciar quantidade"
+                aria-label="Gerenciar quantidade"
+                (click)="toggleExpandRow(obj)">
+                <mat-icon>tune</mat-icon>
               </button>
             </div>
           </td>
         </ng-container>
 
+        <!-- ===== PAINEL EXPANDIDO DE QUANTIDADE ===== -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let obj" [attr.colspan]="displayedColumns.length">
+            <div class="qty-panel" *ngIf="expandedRow === obj">
+              <div class="qty-panel-inner">
+                <div class="qty-panel-header">
+                  <mat-icon class="qty-panel-icon">inventory_2</mat-icon>
+                  <span class="qty-panel-title">Gerenciar Quantidade — Boné <strong>#{{ obj.idBone }}</strong></span>
+                </div>
+
+                <div class="qty-actions-row">
+
+                  <!-- ATUALIZAR QUANTIDADE -->
+                  <div class="qty-action-block">
+                    <span class="qty-action-label">
+                      <mat-icon>swap_vert</mat-icon>
+                      Atualizar para
+                    </span>
+                    <div class="qty-input-row">
+                      <mat-form-field appearance="outline" class="qty-field">
+                        <mat-label>Nova quantidade</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          min="0"
+                          [(ngModel)]="novaQuantidade[obj.id]"
+                          [ngModelOptions]="{ standalone: true }"
+                          placeholder="0">
+                        <mat-icon matSuffix>edit_note</mat-icon>
+                      </mat-form-field>
+                      <button
+                        mat-flat-button
+                        class="btn-atualizar"
+                        (click)="atualizarQuantidade(obj)"
+                        [disabled]="novaQuantidade[obj.id] == null">
+                        <mat-icon>check</mat-icon>
+                        Atualizar
+                      </button>
+                    </div>
+                    <span class="qty-hint">Define o estoque para o valor exato informado.</span>
+                  </div>
+
+                  <div class="qty-divider"></div>
+
+                  <!-- ADICIONAR QUANTIDADE -->
+                  <div class="qty-action-block">
+                    <span class="qty-action-label">
+                      <mat-icon>add_circle_outline</mat-icon>
+                      Adicionar ao estoque
+                    </span>
+                    <div class="qty-input-row">
+                      <mat-form-field appearance="outline" class="qty-field">
+                        <mat-label>Quantidade a adicionar</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          min="1"
+                          [(ngModel)]="qtdAdicionar[obj.id]"
+                          [ngModelOptions]="{ standalone: true }"
+                          placeholder="0">
+                        <mat-icon matSuffix>add</mat-icon>
+                      </mat-form-field>
+                      <button
+                        mat-flat-button
+                        class="btn-adicionar"
+                        (click)="adicionarQuantidade(obj)"
+                        [disabled]="isQtdAdicionarInvalida(obj.id)">
+                        <mat-icon>add</mat-icon>
+                        Adicionar
+                      </button>
+                    </div>
+                    <span class="qty-hint">Soma ao estoque atual de <strong>{{ obj.quantidade }}</strong> unidades.</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            class="main-row"
+            [class.row-expanded]="expandedRow === row"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
+            class="detail-row"></tr>
 
         <tr class="mat-row" *matNoDataRow>
           <td [attr.colspan]="displayedColumns.length">
             <div class="empty-state">
               <mat-icon>search_off</mat-icon>
               <p>Nenhum estoque encontrado.</p>
-              <p style="font-size:0.82rem; opacity:0.6;">Tente outro ID ou cadastre um novo estoque.</p>
+              <p style="font-size:0.82rem; opacity:0.6;">Tente outro ID para consultar o estoque.</p>
             </div>
           </td>
         </tr>

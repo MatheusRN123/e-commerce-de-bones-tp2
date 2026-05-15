@@ -125,6 +125,13 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="imagem">
+          <th mat-header-cell *matHeaderCellDef>Imagem</th>
+          <td mat-cell *matCellDef="let obj" class="td-imagem">
+            <img [src]="getUrlImagem(obj.imagemFid)" alt="{{ obj.nome }}" class="thumb-imagem" />
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="nome">
           <th mat-header-cell *matHeaderCellDef>Nome</th>
           <td mat-cell *matCellDef="let obj" class="td-nome">{{ obj.nome }}</td>

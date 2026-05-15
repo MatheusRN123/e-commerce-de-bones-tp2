@@ -46,4 +46,13 @@ export class EstoqueService {
   delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.api}/${id}`);
   }
+
+  atualizarQuantidade(id: number, dto: { quantidade: number }): Observable<void> {
+    return this.httpClient.put<void>(`${this.api}/${id}/quantidade`, dto);
+  }
+  
+  adicionarQuantidade(id: number, dto: { quantidade: number }): Observable<void> {
+    return this.httpClient.put<void>(`${this.api}/${id}/adicionar`, dto);
+  }
+
 }

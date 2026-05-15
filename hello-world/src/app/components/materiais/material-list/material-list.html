@@ -39,7 +39,8 @@
         matInput
         [(ngModel)]="termoBusca"
         [ngModelOptions]="{ standalone: true }"
-        (keyup)="applyFilter($event)">
+        (keyup)="applyFilter($event)"
+        (keyup.enter)="buscar()">
       
       <button
         mat-icon-button

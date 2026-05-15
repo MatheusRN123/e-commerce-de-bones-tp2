@@ -393,6 +393,26 @@
   font-weight: 500 !important;
 }
 
+/* Imagem */
+.td-imagem {
+  padding: 8px 14px !important;
+  text-align: center;
+}
+
+.thumb-imagem {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.thumb-imagem:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+}
+
 /* Vazio */
 .td-empty {
   color: rgba(148,163,184,0.25);

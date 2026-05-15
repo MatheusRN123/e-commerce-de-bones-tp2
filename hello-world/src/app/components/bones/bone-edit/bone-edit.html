@@ -67,42 +67,126 @@
 
       <div class="divider"></div>
 
-      <!-- SEÇÃO: ESPECIFICAÇÕES -->
+      <!-- SEÇÃO: IMAGEM -->
       <div class="section">
-        <span class="section-label">Especificações</span>
+        <span class="section-label">Imagem do Boné</span>
         <div class="fields-row">
-          <div class="field col-1">
-            <label for="marca">Marca</label>
-            <select id="marca" formControlName="marca">
-              <option [ngValue]="null" disabled>Selecione...</option>
-              <option *ngFor="let m of marcas" [ngValue]="m">{{ m.nome }}</option>
-            </select>
+          <div class="field col-2">
+            <label for="imagem">Selecionar Imagem</label>
+            <input
+              id="imagem"
+              type="file"
+              accept="image/*"
+              (change)="onImagemSelecionada($event)"
+              [disabled]="uploadandoImagem"
+            />
+            <span class="field-hint" *ngIf="uploadandoImagem">Enviando imagem...</span>
+            <span class="field-hint success-hint" *ngIf="imagemFid && !uploadandoImagem">✓ Imagem enviada com sucesso!</span>
           </div>
-          <div class="field col-1">
-            <label for="modelo">Modelo</label>
-            <select id="modelo" formControlName="modelo">
-              <option [ngValue]="null" disabled>Selecione...</option>
-              <option *ngFor="let m of modelos" [ngValue]="m">{{ m.nome }}</option>
-            </select>
-          </div>
-          <div class="field col-1">
-            <label for="material">Material</label>
-            <select id="material" formControlName="material">
-              <option [ngValue]="null" disabled>Selecione...</option>
-              <option *ngFor="let m of materiais" [ngValue]="m">{{ m.nome }}</option>
-            </select>
-          </div>
-          <div class="field col-1">
-            <label for="bordado">Bordado</label>
-            <select id="bordado" formControlName="bordado">
-              <option [ngValue]="null" disabled>Selecione...</option>
-              <option *ngFor="let b of bordados" [ngValue]="b">{{ formatarBordado(b) }}</option>
-            </select>
+          <div class="field col-1" *ngIf="previewImagem">
+            <label>Prévia</label>
+            <img [src]="previewImagem" class="image-preview" alt="Prévia da imagem" />
           </div>
         </div>
       </div>
 
       <div class="divider"></div>
+
+  <!-- SEÇÃO: ESPECIFICAÇÕES -->
+  <div class="section">
+    <span class="section-label">Especificações</span>
+    <div class="fields-row">
+
+      <div class="field col-1">
+        <label>Marca</label>
+        <div class="dropdown-wrap" [class.open]="dropdownAberto === 'marca'" (click)="$event. stopPropagation()">
+          <button type="button" class="dropdown-trigger" (click)="toggleDropdown('marca')">
+            <span [class.placeholder]="!formGroup.get('marca')?.value">
+              {{ formGroup.get('marca')?.value?.nome ?? 'Selecione...' }}
+            </span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"   stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu">
+            <button type="button" class="dropdown-item"
+              *ngFor="let m of marcas"
+              [class.active]="formGroup.get('marca')?.value?.id === m.id"
+              (click)="selecionarOpcao('marca', m)">
+              {{ m.nome }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field col-1">
+        <label>Modelo</label>
+        <div class="dropdown-wrap" [class.open]="dropdownAberto === 'modelo'" (click)="$event.  stopPropagation()">
+          <button type="button" class="dropdown-trigger" (click)="toggleDropdown('modelo')">
+            <span [class.placeholder]="!formGroup.get('modelo')?.value">
+              {{ formGroup.get('modelo')?.value?.nome ?? 'Selecione...' }}
+            </span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"   stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu">
+            <button type="button" class="dropdown-item"
+              *ngFor="let m of modelos"
+              [class.active]="formGroup.get('modelo')?.value?.id === m.id"
+              (click)="selecionarOpcao('modelo', m)">
+              {{ m.nome }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field col-1">
+        <label>Material</label>
+        <div class="dropdown-wrap" [class.open]="dropdownAberto === 'material'" (click) ="$event.stopPropagation()">
+          <button type="button" class="dropdown-trigger" (click)="toggleDropdown('material')">
+            <span [class.placeholder]="!formGroup.get('material')?.value">
+              {{ formGroup.get('material')?.value?.nome ?? 'Selecione...' }}
+            </span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"   stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu">
+            <button type="button" class="dropdown-item"
+              *ngFor="let m of materiais"
+              [class.active]="formGroup.get('material')?.value?.id === m.id"
+              (click)="selecionarOpcao('material', m)">
+              {{ m.nome }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field col-1">
+        <label>Bordado</label>
+        <div class="dropdown-wrap" [class.open]="dropdownAberto === 'bordado'" (click)="$event. stopPropagation()">
+          <button type="button" class="dropdown-trigger" (click)="toggleDropdown('bordado')">
+            <span [class.placeholder]="!formGroup.get('bordado')?.value">
+              {{ formGroup.get('bordado')?.value ? formatarBordado(formGroup.get('bordado')!. value) : 'Selecione...' }}
+            </span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"   stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu">
+            <button type="button" class="dropdown-item"
+              *ngFor="let b of bordados"
+              [class.active]="formGroup.get('bordado')?.value === b"
+              (click)="selecionarOpcao('bordado', b)">
+              {{ formatarBordado(b) }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
       <!-- SEÇÃO: ESTOQUE E ESTAMPAS -->
       <div class="section">

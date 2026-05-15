@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { BoneService } from '../../../services/bone.service';
+import { ArquivoService } from '../../../services/arquivo.service';
 import { Bone } from '../../../models/bone.model';
 
 @Component({
@@ -14,7 +15,10 @@ export class BoneMenu implements OnInit {
   bones: Bone[] = [];
   isLoading = false;
 
-  constructor(private readonly boneService: BoneService) {}
+  constructor(
+    private readonly boneService: BoneService,
+    private readonly arquivoService: ArquivoService  // ← injetar aqui
+  ) {}
 
   ngOnInit(): void {
     this.loadBones();
@@ -35,9 +39,8 @@ export class BoneMenu implements OnInit {
   }
 
   getImage(bone: Bone): string {
-    return (
-      bone.imagemUrl ||
-      `https://via.placeholder.com/400x280?text=${encodeURIComponent(bone.nome || 'Bon%C3%A9')}`
-    );
+    return bone.imagemFid
+      ? this.arquivoService.getUrlDownload(bone.imagemFid)
+      : `https://via.placeholder.com/400x280?text=${encodeURIComponent(bone.nome || 'Boné')}`;
   }
 }

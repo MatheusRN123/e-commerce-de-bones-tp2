@@ -15,11 +15,12 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 import { Bone } from '../../../models/bone.model';
 import { BoneService } from '../../../services/bone.service';
+import { ArquivoService } from '../../../services/arquivo.service';
 
 type FiltroStatus = 'todos' | 'ok' | 'critico' | 'esgotado';
 
 // Colunas base (sempre visíveis)
-const COLUNAS_BASE = ['numero', 'nome', 'cor', 'marca', 'modelo', 'material'];
+const COLUNAS_BASE = ['numero', 'imagem', 'nome', 'cor', 'marca', 'modelo', 'material'];
 
 // Colunas opcionais (controláveis pelo toggle)
 const COLUNAS_MEDIDAS = ['categoriaAba', 'tamanhoAba', 'profundidade', 'circunferencia'];
@@ -30,7 +31,7 @@ const COLUNA_ESTAMPAS = 'estampas';
 const COLUNAS_FIM = ['estoque', 'preco', 'acao'];
 
 // Colunas mobile (reduzidas)
-const COLUNAS_MOBILE = ['numero', 'nome', 'estoque', 'preco', 'acao'];
+const COLUNAS_MOBILE = ['numero', 'imagem', 'nome', 'estoque', 'preco', 'acao'];
 
 @Component({
   selector: 'app-bone-list',
@@ -77,6 +78,7 @@ export class BoneList implements OnInit {
 
   constructor(
     private readonly boneService: BoneService,
+    private readonly arquivoService: ArquivoService,
     private readonly snackBar: MatSnackBar,
     private readonly breakpointObserver: BreakpointObserver
   ) {}
@@ -262,5 +264,9 @@ export class BoneList implements OnInit {
         this.snackBar.open('Erro ao excluir o boné.', 'Fechar', { duration: 3000 });
       },
     });
+  }
+
+  getUrlImagem(imagemFid?: string): string {
+    return imagemFid ? this.arquivoService.getUrlDownload(imagemFid) : '/assets/placeholder-image.png';
   }
 }

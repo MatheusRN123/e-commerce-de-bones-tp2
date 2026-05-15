@@ -8,7 +8,7 @@ export class EstampaService {
 
   private readonly api = 'http://localhost:8080/estampas';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) {}
 
   findAll(page?: number, pageSize?: number): Observable<Estampa[]> {
     let params = {};
@@ -41,6 +41,23 @@ export class EstampaService {
 
   update(estampa: Estampa): Observable<void> {
     return this.httpClient.put<void>(`${this.api}/${estampa.id}`, estampa);
+  }
+
+  // Specialized endpoints for digital and bordada estampas
+  createDigital(dto: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.api}/digital`, dto);
+  }
+
+  updateDigital(id: number, dto: any): Observable<void> {
+    return this.httpClient.put<void>(`${this.api}/digital/${id}`, dto);
+  }
+
+  createBordada(dto: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.api}/bordada`, dto);
+  }
+
+  updateBordada(id: number, dto: any): Observable<void> {
+    return this.httpClient.put<void>(`${this.api}/bordada/${id}`, dto);
   }
 
   delete(id: number): Observable<void> {
