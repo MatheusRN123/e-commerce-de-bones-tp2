@@ -1,8 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { AuthDTO } from '../dto/auth.dto';
-
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,27 +11,21 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
   login(dto: AuthDTO): Observable<void> {
-  return this.httpClient.post(this.api, dto, {
-    observe: 'response',
-    responseType: 'text'
-  }).pipe(
-    map((response: HttpResponse<string>) => {
-      console.log('Resposta completa:', response);
-      console.log('Status:', response.status);
-      console.log('Headers disponíveis:', response.headers.keys());
-      console.log('Authorization header:', response.headers.get('Authorization'));
+    return this.httpClient.post(this.api, dto, {
+      observe: 'response',
+      responseType: 'text'
+    }).pipe(
+      map((response: HttpResponse<string>) => {
+        const authHeader = response.headers.get('Authorization');
 
-      const authHeader = response.headers.get('Authorization');
+        if (!authHeader) {
+          throw new Error('Token nao retornado pelo backend.');
+        }
 
-      if (!authHeader) {
-        throw new Error('Token não retornado pelo backend.');
-      }
-
-      const token = authHeader.replace('Bearer ', '');
-      console.log('Token extraído:', token);
-
-      localStorage.setItem(this.TOKEN_KEY, token);
-    })
+        const token = authHeader.replace('Bearer ', '');
+        localStorage.setItem(this.TOKEN_KEY, token);
+      }),
+      catchError((err) => throwError(() => err))
     );
   }
 
@@ -46,5 +39,34 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  register(dto: { email: string; senha: string }): Observable<void> {
+    return this.httpClient.post(`${this.api}/register`, dto, {
+      observe: 'response',
+      responseType: 'text'
+    }).pipe(
+      map(() => undefined),
+      catchError((err) => throwError(() => err))
+    );
+  }
+
+  verifyEmail(token: string): Observable<string> {
+    return this.httpClient.get(`${this.api}/verify-email`, {
+      params: { token },
+      responseType: 'text'
+    });
+  }
+
+  forgotPassword(email: string): Observable<string> {
+    return this.httpClient.post(`${this.api}/forgot-password`, { email }, {
+      responseType: 'text'
+    });
+  }
+
+  resetPassword(token: string, senha: string): Observable<string> {
+    return this.httpClient.post(`${this.api}/reset-password`, { token, senha }, {
+      responseType: 'text'
+    });
   }
 }

@@ -1,96 +1,46 @@
-<div class="app-shell" [class.sidebar-open]="sidebarOpen">
-  <aside class="app-sidebar">
+<div class="app-shell" [class.sidebar-open]="sidebarOpen" [class.public-shell]="isPublicRoute">
+  @if (!isPublicRoute) {
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <button
+          class="hamburger"
+          (click)="toggleSidebar()"
+          [attr.aria-label]="sidebarOpen ? 'Fechar menu' : 'Abrir menu'">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-    <div class="sidebar-header">
-      <button
-        class="hamburger"
-        (click)="toggleSidebar()"
-        [attr.aria-label]="sidebarOpen ? 'Fechar menu' : 'Abrir menu'">
-
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+        @if (sidebarOpen) {
+          <span class="brand">
+            <span class="brand-accent">Bone</span>Store
+          </span>
+        }
+      </div>
 
       @if (sidebarOpen) {
-        <span class="brand">
-          <span class="brand-accent">Boné</span>Store
-        </span>
+        <nav class="nav-links">
+          <a routerLink="/menu" routerLinkActive="active">Catalogo</a>
+          <a routerLink="/bones" routerLinkActive="active">Bones</a>
+          <a routerLink="/marcas" routerLinkActive="active">Marcas</a>
+          <a routerLink="/materiais" routerLinkActive="active">Materiais</a>
+          <a routerLink="/modelos" routerLinkActive="active">Modelos</a>
+          <a routerLink="/estoques" routerLinkActive="active">Estoques</a>
+          <a routerLink="/estampas" routerLinkActive="active">Estampas</a>
+        </nav>
+      } @else {
+        <nav class="nav-icons">
+          <a routerLink="/menu" routerLinkActive="active" title="Catalogo">📚</a>
+          <a routerLink="/bones" routerLinkActive="active" title="Bones">🧢</a>
+          <a routerLink="/marcas" routerLinkActive="active" title="Marcas">🏷️</a>
+          <a routerLink="/materiais" routerLinkActive="active" title="Materiais">🧵</a>
+          <a routerLink="/modelos" routerLinkActive="active" title="Modelos">📐</a>
+          <a routerLink="/estoques" routerLinkActive="active" title="Estoques">📦</a>
+          <a routerLink="/estampas" routerLinkActive="active" title="Estampas">🎨</a>
+        </nav>
       }
-    </div>
-
-    <!-- MENU ABERTO -->
-    @if (sidebarOpen) {
-
-      <nav class="nav-links">
-
-        <a routerLink="/menu" routerLinkActive="active">
-          Catálogo
-        </a>
-
-        <a routerLink="/bones" routerLinkActive="active">
-          Bonés
-        </a>
-
-        <a routerLink="/marcas" routerLinkActive="active">
-          Marcas
-        </a>
-
-        <a routerLink="/materiais" routerLinkActive="active">
-          Materiais
-        </a>
-
-        <a routerLink="/modelos" routerLinkActive="active">
-          Modelos
-        </a>
-
-        <a routerLink="/estoques" routerLinkActive="active">
-          Estoques
-        </a>
-
-        <a routerLink="/estampas" routerLinkActive="active">
-          Estampas
-        </a>
-
-      </nav>
-
-    } @else {
-
-      <!-- MENU FECHADO -->
-      <nav class="nav-icons">
-
-        <a routerLink="/menu" routerLinkActive="active" title="Catálogo">
-          📦
-        </a>
-
-        <a routerLink="/bones" routerLinkActive="active" title="Bonés">
-          🧢
-        </a>
-
-        <a routerLink="/marcas" routerLinkActive="active" title="Marcas">
-          🏷️
-        </a>
-
-        <a routerLink="/materiais" routerLinkActive="active" title="Materiais">
-          🧵
-        </a>
-
-        <a routerLink="/modelos" routerLinkActive="active" title="Modelos">
-          📐
-        </a>
-
-        <a routerLink="/estoques" routerLinkActive="active" title="Estoques">
-          📦
-        </a>
-
-        <a routerLink="/estampas" routerLinkActive="active" title="Estampas">
-          🖼️
-        </a>
-
-      </nav>
-    }
-
-  </aside>
+    </aside>
+  }
 
   <main class="app-content">
     <router-outlet></router-outlet>

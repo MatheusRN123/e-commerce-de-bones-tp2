@@ -21,7 +21,7 @@ export class LoginComponent {
     private router: Router
   ) {
     this.formGroup = this.fb.group({
-      login: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(/^[A-Za-z0-9._%+-]+@gmail\.com$/)]],
       senha: ['', Validators.required]
     });
   }
@@ -29,9 +29,26 @@ export class LoginComponent {
   entrar(): void {
     if (this.formGroup.invalid) return;
     this.erro = '';
-    this.authService.login(this.formGroup.value).subscribe({
+    const value = this.formGroup.value;
+    const dto: any = { email: (value.email as string).trim(), senha: value.senha };
+
+    console.log('Login payload:', dto);
+
+    this.authService.login(dto).subscribe({
       next: () => this.router.navigateByUrl('/bones'),
-      error: () => { this.erro = 'Login ou senha inválidos.'; }
+      error: (err) => {
+        this.erro = err.status === 403
+          ? 'Verifique seu Gmail antes de fazer login.'
+          : 'Gmail ou senha invalidos.';
+      }
     });
+  }
+
+  cadastrar(): void {
+    this.router.navigateByUrl('/register');
+  }
+
+  esqueciSenha(): void {
+    this.router.navigateByUrl('/forgot-password');
   }
 }

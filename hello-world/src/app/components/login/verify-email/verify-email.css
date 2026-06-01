@@ -1,0 +1,5 @@
+.auth-page { display:flex; align-items:center; justify-content:center; height:100vh; background:#080c18; padding:24px; }
+.auth-card { width:360px; padding:24px; background:#0e1628; border:1px solid rgba(56,189,248,.15); border-radius:8px; color:#e8edf7; }
+button { padding:10px 12px; border:0; border-radius:6px; cursor:pointer; font-weight:700; background:#38bdf8; color:#080c18; }
+.error-box { color:#f87171; }
+.success-box { color:#34d399; }

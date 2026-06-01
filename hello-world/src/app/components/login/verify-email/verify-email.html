@@ -1,0 +1,8 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Verificacao de Gmail</h1>
+    <p *ngIf="mensagem" class="success-box">{{ mensagem }}</p>
+    <p *ngIf="erro" class="error-box">{{ erro }}</p>
+    <button type="button" (click)="router.navigateByUrl('/login')">Ir para login</button>
+  </div>
+</div>

@@ -8,25 +8,25 @@
         </svg>
       </div>
       <div>
-        <h1 class="login-title"><span class="accent">Boné</span>Store</h1>
-        <p class="login-sub">Faça login para continuar</p>
+        <h1 class="login-title"><span class="accent">Bone</span>Store</h1>
+        <p class="login-sub">Faca login com seu Gmail para continuar</p>
       </div>
     </div>
 
     <form [formGroup]="formGroup" class="login-form" autocomplete="off">
       <div class="field-group">
-        <label for="login-input">Usuário</label>
+        <label for="email-input">Gmail</label>
         <div class="input-wrapper">
           <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
             <circle cx="12" cy="7" r="4"/>
           </svg>
           <input
-            id="login-input"
-            type="text"
-            formControlName="login"
-            placeholder="seu usuário"
-            autocomplete="username"
+            id="email-input"
+            type="email"
+            formControlName="email"
+            placeholder="seu@gmail.com"
+            autocomplete="email"
           />
         </div>
       </div>
@@ -59,18 +59,24 @@
         </div>
       }
 
-      <button
-        type="button"
-        class="btn-entrar"
-        (click)="entrar()"
-        [disabled]="formGroup.invalid"
-      >
-        Entrar
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <line x1="5" y1="12" x2="19" y2="12"/>
-          <polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </button>
+      <div class="actions">
+        <button
+          type="button"
+          class="btn-entrar"
+          (click)="entrar()"
+          [disabled]="formGroup.invalid"
+        >
+          Entrar
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+
+        <button type="button" class="btn-cadastrar" (click)="cadastrar()">Cadastrar</button>
+      </div>
+
+      <button type="button" class="forgot-link" (click)="esqueciSenha()">Esqueceu a senha?</button>
     </form>
   </div>
 </div>

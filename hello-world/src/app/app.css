@@ -29,6 +29,10 @@ body {
   grid-template-columns: 240px 1fr;
 }
 
+.app-shell.public-shell {
+  grid-template-columns: 1fr;
+}
+
 /* SIDEBAR */
 
 .app-sidebar {
@@ -141,6 +145,10 @@ body {
 
 .app-content {
   padding: 28px 32px;
+}
+
+.app-shell.public-shell .app-content {
+  padding: 0;
 }
 
 /* RESPONSIVO */
