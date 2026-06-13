@@ -98,7 +98,10 @@
     <div class="fields-row">
 
       <div class="field col-1">
-        <label>Marca</label>
+        <div class="label-row">
+          <label>Marca</label>
+          <button type="button" class="btn-inline-add" (click)="abrirCadastroRapido('marca', $event)">+</button>
+        </div>
         <div class="dropdown-wrap" [class.open]="dropdownAberto === 'marca'" (click)="$event. stopPropagation()">
           <button type="button" class="dropdown-trigger" (click)="toggleDropdown('marca')">
             <span [class.placeholder]="!formGroup.get('marca')?.value">
@@ -120,7 +123,10 @@
       </div>
 
       <div class="field col-1">
-        <label>Modelo</label>
+        <div class="label-row">
+          <label>Modelo</label>
+          <button type="button" class="btn-inline-add" (click)="abrirCadastroRapido('modelo', $event)">+</button>
+        </div>
         <div class="dropdown-wrap" [class.open]="dropdownAberto === 'modelo'" (click)="$event.  stopPropagation()">
           <button type="button" class="dropdown-trigger" (click)="toggleDropdown('modelo')">
             <span [class.placeholder]="!formGroup.get('modelo')?.value">
@@ -142,7 +148,10 @@
       </div>
 
       <div class="field col-1">
-        <label>Material</label>
+        <div class="label-row">
+          <label>Material</label>
+          <button type="button" class="btn-inline-add" (click)="abrirCadastroRapido('material', $event)">+</button>
+        </div>
         <div class="dropdown-wrap" [class.open]="dropdownAberto === 'material'" (click) ="$event.stopPropagation()">
           <button type="button" class="dropdown-trigger" (click)="toggleDropdown('material')">
             <span [class.placeholder]="!formGroup.get('material')?.value">
@@ -208,7 +217,10 @@
           </div>
 
           <div class="field col-2">
-            <label>Estampas</label>
+            <div class="label-row">
+              <label>Estampas</label>
+              <button type="button" class="btn-inline-add" (click)="abrirCadastroRapido('estampa', $event)">+</button>
+            </div>
             <div class="estampas-list" *ngIf="estampas.length; else semEstampas">
               <label class="estampa-item" *ngFor="let e of estampas">
                 <input
@@ -240,5 +252,118 @@
       </div>
       
     </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" *ngIf="quickModal" (click)="fecharCadastroRapido()">
+  <div class="quick-modal" (click)="$event.stopPropagation()" [formGroup]="quickForm">
+    <div class="modal-header">
+      <h2>Novo {{ quickModal }}</h2>
+      <button type="button" (click)="fecharCadastroRapido()">x</button>
+    </div>
+
+    <div class="field">
+      <label>Nome</label>
+      <input type="text" formControlName="nome" placeholder="Nome" />
+    </div>
+
+    <ng-container *ngIf="quickModal === 'modelo'">
+      <div class="fields-row">
+        <div class="field col-1">
+          <label>Categoria</label>
+          <input type="text" formControlName="categoria" placeholder="Ex: Casual" />
+        </div>
+        <div class="field col-1">
+          <label>Estilo</label>
+          <input type="text" formControlName="estilo" placeholder="Ex: Streetwear" />
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="quickModal === 'estampa'">
+      <div class="fields-row">
+        <div class="field col-1">
+          <label>Tipo</label>
+        
+          <div
+            class="dropdown-wrap"
+            [class.open]="dropdownAberto === 'tipo'"
+            (click)="$event.stopPropagation()">
+        
+            <button
+              type="button"
+              class="dropdown-trigger"
+              (click)="toggleDropdown('tipo')">
+        
+              <span>
+                {{
+                  quickForm.get('tipo')?.value === 'BORDADA'
+                    ? 'Bordada'
+                    : 'Digital'
+                }}
+              </span>
+            
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+          
+            <div class="dropdown-menu">
+            
+              <button
+                type="button"
+                class="dropdown-item"
+                [class.active]="quickForm.get('tipo')?.value === 'DIGITAL'"
+                (click)="selecionarTipo('DIGITAL')">
+                Digital
+              </button>
+            
+              <button
+                type="button"
+                class="dropdown-item"
+                [class.active]="quickForm.get('tipo')?.value === 'BORDADA'"
+                (click)="selecionarTipo('BORDADA')">
+                Bordada
+              </button>
+            
+            </div>
+          
+          </div>
+        </div>
+        <div class="field col-1">
+          <label>Posicao</label>
+          <input type="text" formControlName="posicao" placeholder="Frente" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Descricao</label>
+        <input type="text" formControlName="descricao" placeholder="Descricao" />
+      </div>
+      <div class="field" *ngIf="quickForm.get('tipo')?.value === 'DIGITAL'">
+        <label>Resolucao</label>
+        <input type="text" formControlName="resolucao" placeholder="1080p" />
+      </div>
+      <div class="fields-row" *ngIf="quickForm.get('tipo')?.value === 'BORDADA'">
+        <div class="field col-1">
+          <label>Cor da linha</label>
+          <input type="text" formControlName="corLinha" placeholder="Branco" />
+        </div>
+        <div class="field col-1">
+          <label>Qtd. cores</label>
+          <input type="number" formControlName="quantCores" placeholder="1" />
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" (click)="fecharCadastroRapido()">Cancelar</button>
+      <button type="button" class="btn-save" (click)="salvarCadastroRapido()">Adicionar</button>
+    </div>
   </div>
 </div>

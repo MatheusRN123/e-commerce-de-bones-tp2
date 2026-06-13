@@ -1,0 +1,34 @@
+<section class="orders-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Administrativo</p>
+      <h1>Pedidos</h1>
+    </div>
+  </header>
+
+  <div class="loading-state" *ngIf="loading">Carregando pedidos...</div>
+
+  <div class="empty-state" *ngIf="!loading && !pedidos.length">
+    <mat-icon>receipt_long</mat-icon>
+    <h2>Nenhum pedido encontrado</h2>
+  </div>
+
+  <div class="orders-list" *ngIf="!loading && pedidos.length">
+    <article class="order-card" *ngFor="let pedido of pedidos">
+      <div>
+        <strong>Pedido #{{ pedido.id }}</strong>
+        <span>{{ pedido.data | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+
+      <div>
+        <span>{{ pedido.pagamento?.tipo || 'Pagamento' }} - {{ pedido.pagamento?.status || 'PENDENTE' }}</span>
+        <strong>{{ pedido.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+
+      <a mat-flat-button [routerLink]="['/resumo-compra', pedido.id]">
+        <mat-icon>visibility</mat-icon>
+        Detalhes
+      </a>
+    </article>
+  </div>
+</section>

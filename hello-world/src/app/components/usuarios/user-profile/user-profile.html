@@ -1,0 +1,226 @@
+<section class="profile-page">
+  <div class="loading-state" *ngIf="loading">Carregando perfil...</div>
+
+  <ng-container *ngIf="usuario && !loading">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Minha conta</p>
+        <h1>{{ usuario.nome }}</h1>
+        <span class="role-pill">{{ usuario.perfil === 'ADM' ? 'Administrador' : 'Usuario' }}</span>
+      </div>
+      <button mat-stroked-button type="button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Sair
+      </button>
+    </header>
+
+    <nav class="profile-tabs" aria-label="Menu do perfil">
+      <button type="button" [class.active]="activeSection === 'dados'" (click)="setActiveSection('dados')">
+        <mat-icon>person</mat-icon>
+        Dados
+      </button>
+      <button type="button" *ngIf="showPurchaseHistory" [class.active]="activeSection === 'enderecos'" (click)="setActiveSection('enderecos')">
+        <mat-icon>location_on</mat-icon>
+        Enderecos
+      </button>
+      <button type="button" *ngIf="showPurchaseHistory" [class.active]="activeSection === 'cartoes'" (click)="setActiveSection('cartoes')">
+        <mat-icon>credit_card</mat-icon>
+        Cartoes
+      </button>
+      <button type="button" *ngIf="showPurchaseHistory" [class.active]="activeSection === 'historico'" (click)="setActiveSection('historico')">
+        <mat-icon>receipt_long</mat-icon>
+        Historico
+      </button>
+    </nav>
+
+    <div class="profile-layout" [class.single-column]="activeSection !== 'dados'">
+      <div class="profile-main">
+        <form class="profile-card" *ngIf="activeSection === 'dados'" (ngSubmit)="saveProfile()">
+          <h2>Dados do perfil</h2>
+          <p>Alteracoes no perfil exigem confirmacao da senha atual.</p>
+
+          <label>
+            <span>Nome</span>
+            <input type="text" name="nome" [(ngModel)]="profileForm.nome" />
+          </label>
+
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" [(ngModel)]="profileForm.email" />
+          </label>
+
+          <label>
+            <span>Confirmar senha</span>
+            <input type="password" name="senhaConfirmacao" [(ngModel)]="profileForm.senhaConfirmacao" />
+          </label>
+
+          <button mat-flat-button type="submit" [disabled]="savingProfile">
+            <mat-icon>save</mat-icon>
+            {{ savingProfile ? 'Salvando' : 'Salvar perfil' }}
+          </button>
+        </form>
+
+        <section class="profile-card" *ngIf="activeSection === 'dados'">
+          <h2>Alterar senha</h2>
+          <p>Para sua seguranca, a alteracao de senha e feita por confirmacao no email cadastrado.</p>
+
+          <button mat-flat-button type="button" (click)="requestPasswordReset()" [disabled]="sendingPasswordEmail">
+            <mat-icon>mark_email_read</mat-icon>
+            {{ sendingPasswordEmail ? 'Enviando' : 'Enviar confirmacao por email' }}
+          </button>
+        </section>
+
+        <section class="profile-card" *ngIf="showPurchaseHistory && activeSection === 'enderecos'">
+          <h2>Enderecos</h2>
+
+          <div class="address-list" *ngIf="enderecos.length">
+            <article class="address-card" *ngFor="let endereco of enderecos">
+              <div>
+                <strong>{{ endereco.logradouro }}, {{ endereco.numero }}</strong>
+                <span>{{ endereco.nomeCidade }}{{ endereco.siglaEstado ? ' - ' + endereco.siglaEstado : '' }} - CEP {{ endereco.cep }}</span>
+              </div>
+              <div class="address-actions">
+                <button mat-icon-button type="button" (click)="editAddress(endereco)" aria-label="Editar endereco">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button type="button" (click)="removeAddress(endereco)" aria-label="Remover endereco">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <div class="empty-state compact" *ngIf="!enderecos.length">Nenhum endereco cadastrado.</div>
+
+          <form class="address-form" (ngSubmit)="saveAddress()">
+            <label>
+              <span>Destinatario</span>
+              <input type="text" name="nomeDestinatario" [(ngModel)]="addressForm.nomeDestinatario" />
+            </label>
+            <label>
+              <span>CEP</span>
+              <input type="text" name="cep" [(ngModel)]="addressForm.cep" />
+            </label>
+            <label>
+              <span>Logradouro</span>
+              <input type="text" name="logradouro" [(ngModel)]="addressForm.logradouro" />
+            </label>
+            <label>
+              <span>Numero</span>
+              <input type="text" name="numero" [(ngModel)]="addressForm.numero" />
+            </label>
+            <label>
+              <span>Cidade</span>
+              <input type="text" name="nomeCidade" [(ngModel)]="addressForm.nomeCidade" placeholder="Ex: Palmas" />
+            </label>
+            <label>
+              <span>Estado</span>
+              <input type="text" name="nomeEstado" [(ngModel)]="addressForm.nomeEstado" placeholder="Ex: Tocantins" />
+            </label>
+            <label>
+              <span>UF</span>
+              <input type="text" name="siglaEstado" [(ngModel)]="addressForm.siglaEstado" maxlength="2" placeholder="TO" />
+            </label>
+
+            <div class="address-form-actions">
+              <button mat-flat-button type="submit" [disabled]="savingAddress">
+                <mat-icon>save</mat-icon>
+                {{ savingAddress ? 'Salvando' : (editingEnderecoId ? 'Atualizar endereco' : 'Salvar endereco') }}
+              </button>
+              <button mat-button type="button" (click)="resetAddressForm()">Cancelar</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="profile-card" *ngIf="showPurchaseHistory && activeSection === 'cartoes'">
+          <h2>Cartoes</h2>
+
+          <div class="address-list" *ngIf="cards.length">
+            <article class="address-card" *ngFor="let card of cards">
+              <div>
+                <strong>{{ card.nomeTitular }}</strong>
+                <span>**** **** **** {{ card.numero.slice(-4) }} | {{ card.validade }}</span>
+              </div>
+              <div class="address-actions">
+                <button mat-icon-button type="button" (click)="removeCard(card)" aria-label="Remover cartao">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <div class="empty-state compact" *ngIf="!cards.length">Nenhum cartao cadastrado.</div>
+
+          <form class="address-form" (ngSubmit)="saveCard()">
+            <label>
+              <span>Titular</span>
+              <input type="text" name="nomeTitular" [(ngModel)]="cardForm.nomeTitular" />
+            </label>
+            <label>
+              <span>Numero</span>
+              <input type="text" name="numero" [(ngModel)]="cardForm.numero" (ngModelChange)="formatCardNumber()" maxlength="19" />
+            </label>
+            <label>
+              <span>Validade</span>
+              <input type="text" name="validade" [(ngModel)]="cardForm.validade" (ngModelChange)="formatCardValidity()" placeholder="MM/AA" maxlength="5" />
+            </label>
+            <label>
+              <span>CVV</span>
+              <input type="password" name="cvv" [(ngModel)]="cardForm.cvv" (ngModelChange)="formatCardCvv()" maxlength="4" />
+            </label>
+            <div class="address-form-actions">
+              <button mat-flat-button type="submit">
+                <mat-icon>add_card</mat-icon>
+                Adicionar cartao
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <aside class="profile-card identity-card" *ngIf="activeSection === 'dados'">
+        <mat-icon>account_circle</mat-icon>
+        <strong>{{ usuario.nome }}</strong>
+        <span>{{ usuario.email }}</span>
+      </aside>
+    </div>
+
+    <section class="history-section" *ngIf="showPurchaseHistory && activeSection === 'historico'">
+      <header>
+        <p class="eyebrow">Historico</p>
+        <h2>Compras realizadas</h2>
+      </header>
+
+      <div class="empty-state" *ngIf="!pedidos.length">Nenhuma compra realizada ainda.</div>
+
+      <article class="order-card" *ngFor="let pedido of pedidos">
+        <div class="order-header">
+          <div>
+            <strong>Pedido #{{ pedido.numeroUsuario || pedido.id }}</strong>
+            <span>{{ pedido.data | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <div class="order-total">
+            <span>{{ pedido.itens.length }} item(ns)</span>
+            <strong>{{ pedido.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+          </div>
+        </div>
+        <div class="order-address">
+          {{ pedido.logradouro }}, {{ pedido.numero }} - {{ pedido.cidade }} / {{ pedido.estado }}
+        </div>
+        <div class="order-items">
+          <div class="order-item" *ngFor="let item of pedido.itens">
+            <span>
+              <strong>{{ item.quantidade }}x {{ item.bone.nome }}</strong>
+              <small>{{ item.bone.nomeMarca }}{{ item.bone.nomeModelo ? ' / ' + item.bone.nomeModelo : '' }}</small>
+            </span>
+            <strong>{{ item.subtotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+          </div>
+        </div>
+        <a class="order-detail-link" [routerLink]="['/resumo-compra', pedido.id]">
+          <mat-icon>receipt_long</mat-icon>
+          Ver detalhes
+        </a>
+      </article>
+    </section>
+  </ng-container>
+</section>

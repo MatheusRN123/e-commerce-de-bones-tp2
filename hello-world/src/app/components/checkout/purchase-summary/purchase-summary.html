@@ -1,0 +1,103 @@
+<section class="summary-page">
+  <div class="loading-state" *ngIf="loading">Carregando resumo...</div>
+
+  <ng-container *ngIf="pedido && !loading">
+    <header class="success-header">
+      <div class="success-icon">
+        <mat-icon>check</mat-icon>
+      </div>
+      <p class="eyebrow">Compra finalizada</p>
+      <h1>Pedido #{{ pedido.numeroUsuario || pedido.id }}</h1>
+      <p>Realizado em {{ pedido.data | date:'dd/MM/yyyy HH:mm' }}</p>
+    </header>
+
+    <div class="summary-layout">
+      <section class="summary-section">
+        <h2>Itens</h2>
+
+        <article class="item-row" *ngFor="let item of pedido.itens">
+          <div>
+            <strong>{{ item.bone.nome }}</strong>
+            <span>{{ item.quantidade }} unidade(s)</span>
+          </div>
+          <strong>{{ item.subtotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+        </article>
+
+        <div class="pix-payment" *ngIf="orderDetails?.pix">
+          <h2>Pagamento Pix</h2>
+          <div class="pix-grid">
+            <img [src]="pixQrCodeUrl()" alt="QR Code Pix" />
+            <div>
+              <span>Status</span>
+              <strong>{{ pedido.pagamento?.status || 'PENDENTE' }}</strong>
+              <small>Valido ate {{ pixExpiration() }}</small>
+              <textarea readonly [value]="orderDetails?.pix?.payload"></textarea>
+              <button mat-flat-button type="button" (click)="copyPixPayload()">
+                <mat-icon>content_copy</mat-icon>
+                Copiar codigo Pix
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pix-payment" *ngIf="orderDetails?.boleto">
+          <h2>Boleto</h2>
+          <div class="info-row">
+            <span>Vencimento</span>
+            <strong>{{ boletoVencimento() }}</strong>
+            <small>{{ orderDetails?.parcelas }}x de {{ orderDetails?.valorParcela | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+          </div>
+          <div class="info-row">
+            <span>Codigo de barras</span>
+            <strong class="barcode">{{ orderDetails?.boleto?.codigoBarras }}</strong>
+          </div>
+        </div>
+      </section>
+
+      <aside class="summary-section order-card">
+        <h2>Resumo</h2>
+
+        <div class="info-row">
+          <span>Entrega</span>
+          <strong>{{ pedido.logradouro }}, {{ pedido.numero }}</strong>
+          <small>{{ pedido.cidade }} - {{ pedido.estado }} | CEP {{ pedido.cep }}</small>
+        </div>
+
+        <div class="info-row" *ngIf="pedido.pagamento">
+          <span>Pagamento</span>
+          <strong>{{ pedido.pagamento.tipo || orderDetails?.tipoPagamento }} - {{ pedido.pagamento.status }}</strong>
+          <small>{{ orderDetails?.totalPago || pedido.pagamento.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+        </div>
+
+        <div class="info-row" *ngIf="orderDetails?.desconto">
+          <span>Desconto</span>
+          <strong>-{{ orderDetails?.desconto | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+          <small>Subtotal {{ orderDetails?.subtotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+        </div>
+
+        <div class="info-row">
+          <span>Frete</span>
+          <strong>{{ orderDetails?.frete || 0 | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+          <small>{{ orderDetails?.statusFrete }}</small>
+        </div>
+
+        <label class="shipping-admin" *ngIf="isAdmin && orderDetails">
+          <span>Status do frete</span>
+          <select [ngModel]="orderDetails.statusFrete" (ngModelChange)="updateShippingStatus($event)">
+            <option *ngFor="let status of shippingStatuses" [value]="status">{{ status }}</option>
+          </select>
+        </label>
+
+        <div class="total-row">
+          <span>Total</span>
+          <strong>{{ totalWithFrete() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+        </div>
+
+        <button mat-flat-button routerLink="/menu">
+          <mat-icon>storefront</mat-icon>
+          Voltar aos produtos
+        </button>
+      </aside>
+    </div>
+  </ng-container>
+</section>

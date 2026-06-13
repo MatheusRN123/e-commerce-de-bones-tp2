@@ -28,6 +28,22 @@ export class BoneService {
     return this.httpClient.get<number>(`${this.api}/count`);
   }
 
+  search(term: string, page: number, pageSize: number): Observable<Bone[]> {
+    return this.httpClient.get<Bone[]>(`${this.api}/search`, {
+      params: {
+        term,
+        page: page.toString(),
+        pageSize: pageSize.toString()
+      }
+    });
+  }
+
+  countSearch(term: string): Observable<number> {
+    return this.httpClient.get<number>(`${this.api}/search/count`, {
+      params: { term }
+    });
+  }
+
   findByNome(nome: string): Observable<Bone[]> {
     return this.httpClient.get<Bone[]>(`${this.api}/find/${nome}`);
   }

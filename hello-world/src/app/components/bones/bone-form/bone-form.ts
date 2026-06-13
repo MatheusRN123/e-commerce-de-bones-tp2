@@ -22,6 +22,8 @@ import { Estampa } from '../../../models/estampa.model';
 })
 export class BoneForm implements OnInit {
   formGroup!: FormGroup;
+  quickForm!: FormGroup;
+  quickModal: 'marca' | 'modelo' | 'material' | 'estampa' | null = null;
   marcas: Marca[] = [];
   modelos: Modelo[] = [];
   materiais: Material[] = [];
@@ -59,6 +61,18 @@ export class BoneForm implements OnInit {
       preco:              ['', Validators.required],
       quantidadeEstoque:  ['', [Validators.required, Validators.min(1)]],
       imagemFid:          [null, Validators.required]
+    });
+
+    this.quickForm = this.formBuilder.group({
+      nome: ['', Validators.required],
+      categoria: [''],
+      estilo: [''],
+      tipo: ['DIGITAL'],
+      posicao: [''],
+      descricao: [''],
+      resolucao: [''],
+      corLinha: [''],
+      quantCores: [null]
     });
 
     this.carregarMarcas();
@@ -167,6 +181,81 @@ export class BoneForm implements OnInit {
   
   selecionarOpcao(campo: string, valor: any): void {
     this.formGroup.get(campo)?.setValue(valor);
+    this.dropdownAberto = null;
+  }
+
+  abrirCadastroRapido(tipo: 'marca' | 'modelo' | 'material' | 'estampa', event?: Event): void {
+    event?.stopPropagation();
+    this.quickModal = tipo;
+    this.quickForm.reset({
+      nome: '',
+      categoria: '',
+      estilo: '',
+      tipo: 'DIGITAL',
+      posicao: '',
+      descricao: '',
+      resolucao: '',
+      corLinha: '',
+      quantCores: null
+    });
+  }
+
+  fecharCadastroRapido(): void {
+    this.quickModal = null;
+  }
+
+  salvarCadastroRapido(): void {
+    if (!this.quickModal || this.quickForm.get('nome')?.invalid) {
+      this.quickForm.markAllAsTouched();
+      return;
+    }
+
+    const v = this.quickForm.value;
+
+    if (this.quickModal === 'marca') {
+      this.marcaService.create({ id: 0, nome: v.nome }).subscribe((marca) => {
+        this.marcas = [...this.marcas, marca];
+        this.selecionarOpcao('marca', marca);
+        this.fecharCadastroRapido();
+      });
+      return;
+    }
+
+    if (this.quickModal === 'material') {
+      this.materialService.create({ id: 0, nome: v.nome }).subscribe((material) => {
+        this.materiais = [...this.materiais, material];
+        this.selecionarOpcao('material', material);
+        this.fecharCadastroRapido();
+      });
+      return;
+    }
+
+    if (this.quickModal === 'modelo') {
+      const dto = { id: 0, nome: v.nome, categoria: v.categoria || 'Geral', estilo: v.estilo || 'Padrao' };
+      this.modeloService.create(dto).subscribe((modelo) => {
+        this.modelos = [...this.modelos, modelo];
+        this.selecionarOpcao('modelo', modelo);
+        this.fecharCadastroRapido();
+      });
+      return;
+    }
+
+    const common = { nome: v.nome, posicao: v.posicao || 'Frente', descricao: v.descricao || '' };
+    const request = v.tipo === 'BORDADA'
+      ? this.estampaService.createBordada({ ...common, corLinha: v.corLinha || 'Branco', quantCores: v.quantCores || 1 })
+      : this.estampaService.createDigital({ ...common, resolucao: v.resolucao || '1080p' });
+
+    request.subscribe((estampa) => {
+      this.estampas = [...this.estampas, estampa];
+      if (estampa?.id) {
+        this.estampasSelecionadas = [...this.estampasSelecionadas, estampa.id];
+      }
+      this.fecharCadastroRapido();
+    });
+  }
+
+  selecionarTipo(tipo: string): void {
+    this.quickForm.get('tipo')?.setValue(tipo);
     this.dropdownAberto = null;
   }
 }

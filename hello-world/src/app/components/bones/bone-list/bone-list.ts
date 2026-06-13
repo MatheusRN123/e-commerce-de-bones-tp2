@@ -143,10 +143,10 @@ export class BoneList implements OnInit {
 
     switch (this.filtroStatus) {
       case 'ok':
-        dados = dados.filter((b) => b.quantidadeEstoque > 5);
+        dados = dados.filter((b) => b.quantidadeEstoque > 10);
         break;
       case 'critico':
-        dados = dados.filter((b) => b.quantidadeEstoque > 0 && b.quantidadeEstoque <= 5);
+        dados = dados.filter((b) => b.quantidadeEstoque > 0 && b.quantidadeEstoque <= 10);
         break;
       case 'esgotado':
         dados = dados.filter((b) => b.quantidadeEstoque === 0);

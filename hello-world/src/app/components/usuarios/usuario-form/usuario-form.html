@@ -1,0 +1,103 @@
+<div class="page-container">
+  <div class="form-card">
+    <div class="form-header">
+      <div class="header-left">
+        <h1>{{ isEdit ? 'Editar' : 'Cadastro de' }} <span class="accent">Usuario</span></h1>
+        <p>{{ isEdit ? 'Atualize os dados do usuario.' : 'Preencha os dados do usuario abaixo.' }}</p>
+      </div>
+      <button class="btn-cancel-top" type="button" routerLink="/usuarios">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+        Cancelar
+      </button>
+    </div>
+
+    <form [formGroup]="formGroup" class="form">
+      <div class="section">
+        <span class="section-label">Informacoes do Usuario</span>
+        <div class="fields-row">
+          <div class="field col-1">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" formControlName="nome" placeholder="Ex: Maria Silva" />
+          </div>
+          <div class="field col-1">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="email@gmail.com" />
+          </div>
+          <div class="field col-1" *ngIf="!isEdit">
+            <label for="senha">Senha inicial</label>
+            <input id="senha" type="password" formControlName="senha" placeholder="minimo 6 caracteres" />
+          </div>
+        </div>
+          <div class="fields-row">
+            <div class="field col-1">
+              <label>Perfil</label>
+            
+              <div class="dropdown-wrap"
+                   [class.open]="dropdownAberto === 'perfil'"
+                   (click)="$event.stopPropagation()">
+
+                <button
+                  type="button"
+                  class="dropdown-trigger"
+                  (click)="toggleDropdown('perfil')">
+
+                  <span [class.placeholder]="!formGroup.get('perfil')?.value">
+                    {{
+                      formGroup.get('perfil')?.value === 'ADM'
+                        ? 'Administrador'
+                        : 'Usuário'
+                    }}
+                  </span>
+                
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+              
+                <div class="dropdown-menu">
+                  <button
+                    type="button"
+                    class="dropdown-item"
+                    [class.active]="formGroup.get('perfil')?.value === 'USER'"
+                    (click)="selecionarPerfil('USER')">
+                    Usuário
+                  </button>
+                
+                  <button
+                    type="button"
+                    class="dropdown-item"
+                    [class.active]="formGroup.get('perfil')?.value === 'ADM'"
+                    (click)="selecionarPerfil('ADM')">
+                    Administrador
+                  </button>
+                </div>
+              
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-cancel" type="button" routerLink="/usuarios">Cancelar</button>
+        <button class="btn-save" type="button" (click)="salvar()" [disabled]="formGroup.invalid">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline *ngIf="!isEdit" points="20 6 9 17 4 12"/>
+            <ng-container *ngIf="isEdit">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </ng-container>
+          </svg>
+          {{ isEdit ? 'Atualizar Usuario' : 'Salvar Usuario' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

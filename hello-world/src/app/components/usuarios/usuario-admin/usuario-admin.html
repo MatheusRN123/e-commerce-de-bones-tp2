@@ -1,0 +1,135 @@
+<div class="page-container">
+
+  <mat-toolbar class="toolbar">
+    <div class="toolbar-content">
+      <div class="title-group">
+        <span class="toolbar-title">Controle de <span class="accent">Usuarios</span></span>
+        <span class="toolbar-subtitle">Gestao de usuarios do sistema</span>
+      </div>
+      <button mat-fab class="btn-add" routerLink="/usuarios/new" aria-label="Adicionar usuario" matTooltip="Novo Usuario">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon"><mat-icon>groups</mat-icon></div>
+      <div class="stat-info">
+        <span class="stat-label">Total de usuarios</span>
+        <span class="stat-value">{{ totalRecords }}</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"><mat-icon>view_list</mat-icon></div>
+      <div class="stat-info">
+        <span class="stat-label">Nesta pagina</span>
+        <span class="stat-value">{{ dataSource.data.length }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-card">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Pesquisar usuario por nome, email ou perfil</mat-label>
+      <input
+        matInput
+        [(ngModel)]="termoBusca"
+        [ngModelOptions]="{ standalone: true }"
+        (keyup)="applyFilter($event)"
+        (keyup.enter)="buscar()">
+
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        class="search-button"
+        (click)="buscar()"
+        matTooltip="Buscar">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="dataSource" class="custom-table">
+
+        <ng-container matColumnDef="numero">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let obj; let i = index">{{ (page * pageSize) + i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let obj">{{ obj.nome }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let obj">{{ obj.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="perfil">
+          <th mat-header-cell *matHeaderCellDef>Perfil</th>
+          <td mat-cell *matCellDef="let obj">{{ perfilLabel(obj) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acao">
+          <th mat-header-cell *matHeaderCellDef>Acoes</th>
+          <td mat-cell *matCellDef="let obj">
+            <div class="action-buttons">
+              <button
+                mat-icon-button
+                class="btn-edit"
+                [routerLink]="['/usuarios/edit', obj.id]"
+                matTooltip="Editar usuario"
+                aria-label="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                *ngIf="obj.perfil !== 'ADM'"
+                mat-icon-button
+                class="btn-promote"
+                matTooltip="Promover para admin"
+                aria-label="Promover para admin"
+                (click)="promover(obj)">
+                <mat-icon>admin_panel_settings</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                class="btn-delete"
+                matTooltip="Excluir usuario"
+                aria-label="Excluir"
+                (click)="confirmarExclusao(obj)">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td [attr.colspan]="displayedColumns.length">
+            <div class="empty-state">
+              <mat-icon>search_off</mat-icon>
+              <p>Nenhum usuario encontrado.</p>
+              <p style="font-size:0.82rem; opacity:0.6;">Tente outro termo ou cadastre um novo usuario.</p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator
+      [pageSizeOptions]="[2, 4, 8, 16]"
+      [pageSize]="pageSize"
+      [length]="totalRecords"
+      (page)="paginar($event)"
+      aria-label="Selecionar pagina de usuarios">
+    </mat-paginator>
+  </div>
+
+</div>

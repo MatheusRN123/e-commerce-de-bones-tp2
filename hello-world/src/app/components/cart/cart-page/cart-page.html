@@ -1,0 +1,100 @@
+<section class="cart-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Compra</p>
+      <h1>Carrinho</h1>
+    </div>
+    <button mat-stroked-button routerLink="/menu">
+      <mat-icon>arrow_back</mat-icon>
+      Continuar comprando
+    </button>
+  </header>
+
+  <div class="empty-state" *ngIf="!items.length">
+    <mat-icon>shopping_cart</mat-icon>
+    <h2>Seu carrinho esta vazio</h2>
+    <p>Adicione bones pelo catalogo ou pela pagina de detalhes.</p>
+    <button mat-flat-button routerLink="/menu">Ver produtos</button>
+  </div>
+
+  <div class="cart-layout" *ngIf="items.length">
+    <div class="items-panel">
+      <article class="cart-item" *ngFor="let item of items">
+        <a [routerLink]="['/produto', item.bone.id]" [queryParams]="{ returnUrl: '/carrinho' }" class="item-image">
+          <img [src]="getUrlImagem(item.bone)" [alt]="item.bone.nome" (error)="usarPlaceholder($event, item.bone.nome)" />
+        </a>
+
+        <div class="item-info">
+          <p class="meta">{{ item.bone.nomeMarca }} / {{ item.bone.nomeModelo }}</p>
+          <h2>{{ item.bone.nome }}</h2>
+          <span class="stock">{{ item.bone.quantidadeEstoque }} em estoque</span>
+        </div>
+
+        <div class="quantity-control">
+          <button type="button" (click)="alterarQuantidade(item, item.quantidade - 1)" [disabled]="item.quantidade <= 1">
+            <mat-icon>remove</mat-icon>
+          </button>
+          <input
+            type="number"
+            min="1"
+            [max]="item.bone.quantidadeEstoque"
+            [ngModel]="item.quantidade"
+            (ngModelChange)="alterarQuantidade(item, $event)" />
+          <button type="button" (click)="alterarQuantidade(item, item.quantidade + 1)" [disabled]="item.quantidade >= item.bone.quantidadeEstoque">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <div class="item-total">
+          <strong>{{ item.bone.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+          <span>{{ item.bone.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }} cada</span>
+        </div>
+
+        <button mat-icon-button (click)="remover(item)" aria-label="Remover do carrinho">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </article>
+    </div>
+
+    <aside class="summary-panel">
+      <h2>Resumo</h2>
+
+      <label class="coupon-field">
+        <span>Cupom de desconto</span>
+        <div>
+          <input type="text" [(ngModel)]="couponCode" placeholder="BONE10" [disabled]="!!coupon" />
+          <button type="button" (click)="aplicarCupom()" [disabled]="applyingCoupon || !!coupon">
+            {{ applyingCoupon ? 'Aplicando' : 'Aplicar' }}
+          </button>
+        </div>
+      </label>
+
+      <div class="coupon-applied" *ngIf="coupon">
+        <div>
+          <strong>{{ coupon.codigo }}</strong>
+          <span>{{ coupon.percentualDesconto }}% de desconto</span>
+        </div>
+        <button type="button" (click)="removerCupom()">Remover</button>
+      </div>
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <strong>{{ subtotal() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+      <div class="summary-row discount" *ngIf="desconto() > 0">
+        <span>Desconto</span>
+        <strong>-{{ desconto() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <strong>{{ total() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+
+      <button mat-flat-button class="checkout-button" routerLink="/finalizar-compra">
+        <mat-icon>payments</mat-icon>
+        Ir para pagamento
+      </button>
+      <button mat-button class="clear-button" (click)="limpar()">Limpar carrinho</button>
+    </aside>
+  </div>
+</section>

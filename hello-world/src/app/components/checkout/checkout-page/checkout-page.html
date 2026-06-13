@@ -1,0 +1,153 @@
+<section class="checkout-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Finalizar compra</p>
+      <h1>Endereco e pagamento</h1>
+    </div>
+    <button mat-stroked-button routerLink="/carrinho">
+      <mat-icon>arrow_back</mat-icon>
+      Voltar ao carrinho
+    </button>
+  </header>
+
+  <div class="checkout-layout">
+    <div class="checkout-main">
+      <section class="checkout-section">
+        <h2>Endereco de entrega</h2>
+
+        <div class="loading-state" *ngIf="loadingEnderecos">Carregando enderecos...</div>
+
+        <div class="empty-state" *ngIf="!loadingEnderecos && !enderecos.length">
+          <mat-icon>location_off</mat-icon>
+          <h3>Nenhum endereco cadastrado</h3>
+          <p>Cadastre um endereco no perfil antes de finalizar a compra.</p>
+        </div>
+
+        <div class="address-list" *ngIf="enderecos.length">
+          <label class="address-card" *ngFor="let endereco of enderecos" [class.selected]="selectedEnderecoId === endereco.id">
+            <input type="radio" name="endereco" [value]="endereco.id" [(ngModel)]="selectedEnderecoId" />
+            <span>
+              <strong>{{ endereco.logradouro }}, {{ endereco.numero }}</strong>
+              <small>{{ endereco.nomeCidade }}{{ endereco.siglaEstado ? ' - ' + endereco.siglaEstado : '' }} - CEP {{ endereco.cep }}</small>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <section class="checkout-section">
+        <h2>Forma de pagamento</h2>
+
+        <div class="payment-tabs">
+          <button type="button" [class.active]="tipoPagamento === 'PIX'" (click)="selecionarPagamento('PIX')">Pix</button>
+          <button type="button" [class.active]="tipoPagamento === 'CARTAO'" (click)="selecionarPagamento('CARTAO')">Cartao</button>
+          <button type="button" [class.active]="tipoPagamento === 'BOLETO'" (click)="selecionarPagamento('BOLETO')">Boleto</button>
+        </div>
+
+        <div class="payment-form" *ngIf="tipoPagamento === 'PIX'">
+          <div class="readonly-field wide-field">
+            <span>Pagamento Pix</span>
+            <strong>QR Code ao finalizar</strong>
+            <small>Depois de finalizar, o QR Code e o copia e cola aparecem no resumo do pedido.</small>
+          </div>
+        </div>
+
+        <div class="payment-form" *ngIf="tipoPagamento === 'CARTAO'">
+          <div class="saved-card-panel" *ngIf="cards.length">
+            <span>Cartoes salvos</span>
+            <div class="saved-card-grid">
+              <button
+                type="button"
+                *ngFor="let card of cards"
+                [class.active]="selectedCardId === card.id"
+                (click)="selecionarCartao(card.id)">
+                <strong>{{ card.nomeTitular }}</strong>
+                <small>**** {{ card.numero.slice(-4) }} | {{ card.validade }}</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="empty-card-state wide-field" *ngIf="!cards.length">Nenhum cartao cadastrado.</div>
+
+          <a class="add-card-link" routerLink="/perfil" [queryParams]="{ tab: 'cartoes' }">
+            <mat-icon>add_card</mat-icon>
+            Adicionar cartao
+          </a>
+        </div>
+
+        <div class="payment-form" *ngIf="tipoPagamento === 'BOLETO'">
+          <div class="readonly-field">
+            <span>Vencimento</span>
+            <strong>{{ boletoVencimento() }}</strong>
+            <small>Gerado automaticamente com 3 dias de prazo.</small>
+          </div>
+          <div class="readonly-field">
+            <span>Boleto</span>
+            <strong>Disponivel apos finalizar</strong>
+            <small>{{ parcelas }}x de {{ valorParcela() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+          </div>
+        </div>
+
+        <div class="payment-form" *ngIf="tipoPagamento !== 'PIX'">
+          <label>
+            <span>Parcelamento</span>
+            <div class="dropdown-wrap" [class.open]="parcelDropdownOpen" (clickOutside)="parcelDropdownOpen = false">
+              <button type="button" class="dropdown-trigger" (click)="parcelDropdownOpen = !parcelDropdownOpen">
+                <span>{{ parcelas }}x de {{ total() / parcelas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              <div class="dropdown-menu">
+                <button type="button" class="dropdown-item"
+                  *ngFor="let parcela of parcelasDisponiveis()"
+                  [class.active]="parcelas === parcela"
+                  (click)="parcelas = parcela; parcelDropdownOpen = false">
+                  {{ parcela }}x de {{ total() / parcela | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </button>
+              </div>
+            </div>
+          </label>
+        </div>
+      </section>
+    </div>
+
+    <aside class="summary-panel">
+      <h2>Resumo</h2>
+
+      <div class="summary-item" *ngFor="let item of items">
+        <span>{{ item.quantidade }}x {{ item.bone.nome }}</span>
+        <strong>{{ item.bone.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+
+      <div class="summary-total">
+        <span>Subtotal</span>
+        <strong>{{ subtotal() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+
+      <div class="summary-total discount" *ngIf="desconto() > 0">
+        <span>Desconto</span>
+        <strong>-{{ desconto() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+
+      <div class="summary-total">
+        <span>Frete</span>
+        <strong>{{ frete() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+
+      <div class="summary-total">
+        <span>Total</span>
+        <strong>{{ total() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+
+      <div class="summary-item" *ngIf="tipoPagamento !== 'PIX'">
+        <span>Parcelamento</span>
+        <strong>{{ parcelas }}x de {{ valorParcela() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+
+      <button mat-flat-button class="finish-button" (click)="finalizar()" [disabled]="finishing || !items.length || !enderecos.length">
+        <mat-icon>check_circle</mat-icon>
+        {{ finishing ? 'Finalizando' : 'Finalizar compra' }}
+      </button>
+    </aside>
+  </div>
+</section>

@@ -13,6 +13,508 @@ html, body {
 }
 
 /* Remove estilos padrão do Angular Material que podem conflitar */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+select {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 11px;
+  padding: 11px 38px 11px 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  outline: none;
+  transition: all 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+select:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+select:focus {
+  border-color: #38bdf8;
+  background-color: rgba(56, 189, 248, 0.05);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+select option {
+  background: #0e1628;
+  color: #e2e8f0;
+}
+
 .mat-app-background {
   background: #080c18 !important;
+}
+
+body.light-theme,
+body.light-theme .mat-app-background,
+body.light-theme app-root,
+body.light-theme app-bone-menu,
+body.light-theme app-bone-list,
+body.light-theme app-bone-form,
+body.light-theme app-bone-edit,
+body.light-theme app-bone-detail,
+body.light-theme app-cart,
+body.light-theme app-checkout-page,
+body.light-theme app-purchase-summary,
+body.light-theme app-order-admin,
+body.light-theme app-wishlist-list,
+body.light-theme app-user-profile,
+body.light-theme app-usuario-admin,
+body.light-theme app-usuario-form,
+body.light-theme app-coupon-admin,
+body.light-theme app-marca-list,
+body.light-theme app-marca-form,
+body.light-theme app-material-list,
+body.light-theme app-material-form,
+body.light-theme app-modelo-list,
+body.light-theme app-modelo-form,
+body.light-theme app-estampa-list,
+body.light-theme app-estampa-form,
+body.light-theme app-estoque-list,
+body.light-theme app-login-form,
+body.light-theme app-register-form,
+body.light-theme app-forgot-password,
+body.light-theme app-reset-password,
+body.light-theme app-verify-email,
+body.light-theme .app-shell,
+body.light-theme .app-content,
+body.light-theme main,
+body.light-theme section,
+body.light-theme .profile-page,
+body.light-theme .cart-page,
+body.light-theme .wishlist-page,
+body.light-theme .checkout-page,
+body.light-theme .summary-page,
+body.light-theme .bone-menu-page,
+body.light-theme .page-container {
+  background: #F9F6F0 !important;
+  color: #5C3D2E !important;
+}
+
+body.light-theme app-root,
+body.light-theme app-bone-menu,
+body.light-theme app-bone-list,
+body.light-theme app-bone-form,
+body.light-theme app-bone-edit,
+body.light-theme app-bone-detail,
+body.light-theme app-cart,
+body.light-theme app-checkout-page,
+body.light-theme app-purchase-summary,
+body.light-theme app-order-admin,
+body.light-theme app-wishlist-list,
+body.light-theme app-user-profile,
+body.light-theme app-usuario-admin,
+body.light-theme app-usuario-form,
+body.light-theme app-coupon-admin,
+body.light-theme app-marca-list,
+body.light-theme app-marca-form,
+body.light-theme app-material-list,
+body.light-theme app-material-form,
+body.light-theme app-modelo-list,
+body.light-theme app-modelo-form,
+body.light-theme app-estampa-list,
+body.light-theme app-estampa-form,
+body.light-theme app-estoque-list {
+  display: block !important;
+  min-height: 100vh !important;
+}
+
+body.light-theme .app-sidebar {
+  background: #F0EAE0 !important;
+  border-color: #DCCFBD !important;
+  color: #8C6D53 !important;
+}
+
+body.light-theme .hamburger span {
+  background: #8C6D53 !important;
+}
+
+body.light-theme .sidebar-header,
+body.light-theme .page-header,
+body.light-theme .toolbar,
+body.light-theme .catalog-tools,
+body.light-theme .filter-card,
+body.light-theme .table-header-bar,
+body.light-theme .payment-tabs,
+body.light-theme .saved-card-panel,
+body.light-theme .readonly-field,
+body.light-theme .header-badge,
+body.light-theme .role-pill,
+body.light-theme .tag,
+body.light-theme .tag-model,
+body.light-theme .cor-pill,
+body.light-theme .estampa-tag,
+body.light-theme .chip,
+body.light-theme .profile-tabs button,
+body.light-theme .catalog-pagination {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #7A5A40 !important;
+  box-shadow: none !important;
+}
+
+body.light-theme .product-card,
+body.light-theme .form-card,
+body.light-theme .table-card,
+body.light-theme .stat-card,
+body.light-theme .profile-card,
+body.light-theme .history-section,
+body.light-theme .order-card,
+body.light-theme .address-card,
+body.light-theme .cart-card,
+body.light-theme .cart-item,
+body.light-theme .coupon-card,
+body.light-theme .checkout-section,
+body.light-theme .summary-panel,
+body.light-theme .summary-section,
+body.light-theme .wishlist-card,
+body.light-theme .info-panel,
+body.light-theme .image-panel,
+body.light-theme .quick-modal,
+body.light-theme .empty-state,
+body.light-theme .loading-state,
+body.light-theme .auth-card,
+body.light-theme .card,
+body.light-theme .detail-card,
+body.light-theme .order-item,
+body.light-theme .address-form,
+body.light-theme .payment-form,
+body.light-theme .summary-item,
+body.light-theme .summary-total,
+body.light-theme .saved-card-grid button,
+body.light-theme .top-shortcuts a {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+  box-shadow: none !important;
+}
+
+body.light-theme input,
+body.light-theme select,
+body.light-theme textarea,
+body.light-theme option,
+body.light-theme .dropdown-trigger,
+body.light-theme .dropdown-menu,
+body.light-theme .estampas-list,
+body.light-theme .mat-mdc-text-field-wrapper,
+body.light-theme .mdc-text-field,
+body.light-theme .mdc-text-field--outlined,
+body.light-theme .mat-mdc-form-field-focus-overlay {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+  caret-color: #5C3D2E !important;
+  box-shadow: none !important;
+}
+
+body.light-theme select,
+body.light-theme select:focus,
+body.light-theme .mat-mdc-select-arrow {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238C6D53' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+  border-top-color: #8C6D53 !important;
+}
+
+body.light-theme input:hover,
+body.light-theme select:hover,
+body.light-theme textarea:hover,
+body.light-theme input:focus,
+body.light-theme select:focus,
+body.light-theme textarea:focus,
+body.light-theme .mdc-text-field--focused,
+body.light-theme .mdc-text-field--outlined:hover,
+body.light-theme .filter-card .mdc-text-field--outlined:hover .mdc-notched-outline__leading,
+body.light-theme .filter-card .mdc-text-field--outlined:hover .mdc-notched-outline__notch,
+body.light-theme .filter-card .mdc-text-field--outlined:hover .mdc-notched-outline__trailing,
+body.light-theme .filter-card .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+body.light-theme .filter-card .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+body.light-theme .filter-card .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #8C6D53 !important;
+  box-shadow: none !important;
+}
+
+body.light-theme .mdc-notched-outline__leading,
+body.light-theme .mdc-notched-outline__notch,
+body.light-theme .mdc-notched-outline__trailing {
+  border-color: #DCCFBD !important;
+}
+
+body.light-theme input::placeholder,
+body.light-theme textarea::placeholder,
+body.light-theme .mat-mdc-input-element::placeholder,
+body.light-theme .record-count,
+body.light-theme .empty-sub,
+body.light-theme small,
+body.light-theme .card-details,
+body.light-theme .profile-card p,
+body.light-theme .identity-card span,
+body.light-theme .order-card span,
+body.light-theme .loading-state {
+  color: #A07850 !important;
+}
+
+body.light-theme,
+body.light-theme a,
+body.light-theme p,
+body.light-theme span,
+body.light-theme label,
+body.light-theme .toolbar-subtitle,
+body.light-theme .section-label,
+body.light-theme .eyebrow,
+body.light-theme .search-field span,
+body.light-theme .stat-label,
+body.light-theme .nav-links a,
+body.light-theme .nav-icons a,
+body.light-theme mat-icon,
+body.light-theme .mat-icon,
+body.light-theme .mat-mdc-icon-button,
+body.light-theme .mat-mdc-paginator-page-size-label,
+body.light-theme .mat-mdc-paginator-range-label,
+body.light-theme .mat-mdc-select-arrow,
+body.light-theme .mat-mdc-select-value,
+body.light-theme .mat-mdc-select-value-text,
+body.light-theme svg,
+body.light-theme svg * {
+  color: #8C6D53 !important;
+  background: transparent !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme strong,
+body.light-theme .brand,
+body.light-theme .accent,
+body.light-theme .brand-accent,
+body.light-theme .header-text h1,
+body.light-theme .header-left h1,
+body.light-theme .toolbar-title,
+body.light-theme .stat-value,
+body.light-theme .td-nome,
+body.light-theme .card-body h2,
+body.light-theme .total-row strong,
+body.light-theme .order-total strong {
+  color: #5C3D2E !important;
+}
+
+body.light-theme .btn-save,
+body.light-theme .btn-add,
+body.light-theme .cart-button,
+body.light-theme .search-button,
+body.light-theme .primary-action,
+body.light-theme .finish-button,
+body.light-theme .order-detail-link,
+body.light-theme .add-card-link,
+body.light-theme .profile-card button[mat-flat-button],
+body.light-theme button[mat-flat-button],
+body.light-theme .mat-mdc-unelevated-button,
+body.light-theme .mat-mdc-raised-button,
+body.light-theme .mat-mdc-fab,
+body.light-theme .mat-mdc-mini-fab,
+body.light-theme .profile-tabs button.active,
+body.light-theme .payment-tabs button.active,
+body.light-theme .chip.active,
+body.light-theme .card-price-badge,
+body.light-theme .price-badge,
+body.light-theme .stock-ok,
+body.light-theme .wishlist-button,
+body.light-theme .wishlist-button.active,
+body.light-theme .custom-table th.mat-mdc-header-cell,
+body.light-theme .mat-mdc-header-cell {
+  background: #5C3D2E !important;
+  border-color: #5C3D2E !important;
+  color: #FAF9F6 !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
+body.light-theme .btn-save *,
+body.light-theme .btn-add *,
+body.light-theme .cart-button *,
+body.light-theme .search-button *,
+body.light-theme .primary-action *,
+body.light-theme .finish-button *,
+body.light-theme .order-detail-link *,
+body.light-theme .add-card-link *,
+body.light-theme .profile-card button[mat-flat-button] *,
+body.light-theme button[mat-flat-button] *,
+body.light-theme .mat-mdc-unelevated-button *,
+body.light-theme .mat-mdc-raised-button *,
+body.light-theme .mat-mdc-fab *,
+body.light-theme .mat-mdc-mini-fab *,
+body.light-theme .profile-tabs button.active *,
+body.light-theme .payment-tabs button.active *,
+body.light-theme .chip.active *,
+body.light-theme .card-price-badge *,
+body.light-theme .price-badge *,
+body.light-theme .stock-ok *,
+body.light-theme .wishlist-button *,
+body.light-theme .wishlist-button.active *,
+body.light-theme .custom-table th.mat-mdc-header-cell *,
+body.light-theme .mat-mdc-header-cell * {
+  color: #FAF9F6 !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+body.light-theme .mat-mdc-outlined-button,
+body.light-theme button[mat-stroked-button],
+body.light-theme .detail-link,
+body.light-theme .wishlist-link,
+body.light-theme .catalog-pagination button,
+body.light-theme .btn-edit,
+body.light-theme .btn-delete,
+body.light-theme .top-shortcuts a,
+body.light-theme .floating-theme-toggle,
+body.light-theme .nav-links a:hover,
+body.light-theme .nav-icons a:hover,
+body.light-theme .top-shortcuts a:hover,
+body.light-theme .floating-theme-toggle:hover {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+  box-shadow: none !important;
+}
+
+body.light-theme .mat-mdc-outlined-button:hover,
+body.light-theme button[mat-stroked-button]:hover,
+body.light-theme .detail-link:hover,
+body.light-theme .wishlist-link:hover,
+body.light-theme .catalog-pagination button:not(:disabled):hover,
+body.light-theme .btn-edit:hover,
+body.light-theme .btn-delete:hover {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #8C6D53 !important;
+}
+
+body.light-theme .nav-links a.active,
+body.light-theme .nav-icons a.active {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+}
+
+body.light-theme .stock-low,
+body.light-theme .stock-zero {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #A07850 !important;
+}
+
+body.light-theme .custom-table,
+body.light-theme .mat-mdc-table,
+body.light-theme .custom-table td.mat-mdc-cell,
+body.light-theme .mat-mdc-cell,
+body.light-theme .custom-table tr.mat-mdc-row:hover td {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+}
+
+body.light-theme mat-paginator,
+body.light-theme .mat-mdc-paginator {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #8C6D53 !important;
+}
+
+body.light-theme .page-header::before,
+body.light-theme .toolbar::before,
+body.light-theme .spinner {
+  background: #DCCFBD !important;
+  border-color: #DCCFBD !important;
+  border-top-color: #5C3D2E !important;
+}
+
+body.light-theme .hamburger span {
+  background: #8C6D53 !important;
+}
+
+body.light-theme input:-webkit-autofill,
+body.light-theme input:-webkit-autofill:hover,
+body.light-theme input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #FAF9F6 inset !important;
+  -webkit-text-fill-color: #5C3D2E !important;
+}
+
+body.light-theme .image-link,
+body.light-theme .item-image {
+  background: #EADCC9 !important;
+  display: block;
+}
+
+body.light-theme .image-link img,
+body.light-theme .item-image img {
+  background: #EADCC9 !important;
+}
+
+body.light-theme app-bone-list .td-nome {
+  color: #5C3D2E !important;
+}
+
+body.light-theme app-bone-list .price-badge {
+  background: #5C3D2E !important;
+  color: #FAF9F6 !important;
+  border-color: #5C3D2E !important;
+}
+
+body.light-theme app-bone-list .cor-pill {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #7A5A40 !important;
+}
+
+body.light-theme app-bone-list .estampa-tag {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #7A5A40 !important;
+}
+
+body.light-theme app-bone-list .col-btn {
+  border-color: #DCCFBD !important;
+  color: #A07850 !important;
+}
+
+body.light-theme app-bone-list .col-btn.on {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+}
+
+body.light-theme app-bone-list .stat-icon {
+  background: #EADCC9 !important;
+}
+
+body.light-theme app-bone-list .stat-icon mat-icon {
+  color: #8C6D53 !important;
+}
+
+body.light-theme app-bone-list .search-button,
+body.light-theme app-bone-list .search-button mat-icon {
+  color: #8C6D53 !important;
+}
+
+body.light-theme app-bone-list .td-num {
+  color: #C4A882 !important;
 }

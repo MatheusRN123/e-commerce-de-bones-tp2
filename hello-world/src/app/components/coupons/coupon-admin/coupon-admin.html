@@ -1,0 +1,95 @@
+<section class="coupon-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Administrativo</p>
+      <h1>Cupons</h1>
+    </div>
+    <button mat-stroked-button type="button" (click)="resetForm()">
+      <mat-icon>add</mat-icon>
+      Novo cupom
+    </button>
+  </header>
+
+  <div class="coupon-layout">
+    <form class="coupon-form" (ngSubmit)="save()">
+      <h2>{{ editingId ? 'Editar cupom' : 'Cadastrar cupom' }}</h2>
+
+      <label>
+        <span>Codigo</span>
+        <input type="text" name="codigo" [(ngModel)]="form.codigo" placeholder="BONE10" required />
+      </label>
+
+      <label>
+        <span>Descricao</span>
+        <input type="text" name="descricao" [(ngModel)]="form.descricao" placeholder="10% acima de R$ 100" />
+      </label>
+
+      <div class="form-grid">
+        <label>
+          <span>Desconto (%)</span>
+          <input type="number" name="percentualDesconto" [(ngModel)]="form.percentualDesconto" min="1" step="0.1" required />
+        </label>
+
+        <label>
+          <span>Valor minimo</span>
+          <input type="number" name="valorMinimo" [(ngModel)]="form.valorMinimo" min="0" step="0.01" />
+        </label>
+      </div>
+
+      <div class="form-grid">
+        <label>
+          <span>Validade</span>
+          <input type="date" name="dataValidade" [(ngModel)]="form.dataValidade" />
+        </label>
+
+        <label class="checkbox-field">
+          <input type="checkbox" name="ativo" [(ngModel)]="form.ativo" />
+          <span>Ativo</span>
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button mat-flat-button type="submit" [disabled]="saving">
+          <mat-icon>save</mat-icon>
+          {{ saving ? 'Salvando' : 'Salvar' }}
+        </button>
+        <button mat-button type="button" (click)="resetForm()">Cancelar</button>
+      </div>
+    </form>
+
+    <div class="coupon-list">
+      <div class="loading-state" *ngIf="loading">Carregando cupons...</div>
+
+      <article class="coupon-card" *ngFor="let coupon of coupons">
+        <div>
+          <div class="coupon-title">
+            <h2>{{ coupon.codigo }}</h2>
+            <span [class.inactive]="!isVisuallyActive(coupon)">
+              {{ isVisuallyActive(coupon) ? 'Ativo' : 'Inativo' }}
+            </span>
+          </div>
+          <p>{{ coupon.descricao || 'Sem descricao' }}</p>
+          <div class="coupon-meta">
+            <span>{{ coupon.percentualDesconto / 100 | percent:'1.0-2':'pt-BR' }}</span>
+            <span>Min. {{ coupon.valorMinimo | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+            <span *ngIf="coupon.dataValidade">Ate {{ coupon.dataValidade | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+
+        <div class="coupon-actions">
+          <button mat-icon-button type="button" (click)="edit(coupon)" aria-label="Editar cupom">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="remove(coupon)" aria-label="Remover cupom">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+      </article>
+
+      <div class="empty-state" *ngIf="!loading && !coupons.length">
+        <mat-icon>sell</mat-icon>
+        <h2>Nenhum cupom cadastrado</h2>
+      </div>
+    </div>
+  </div>
+</section>

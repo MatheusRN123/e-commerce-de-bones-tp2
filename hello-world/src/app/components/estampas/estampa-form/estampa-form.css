@@ -173,6 +173,17 @@
   color: #2d3f5a;
 }
 
+.field input[type="number"]::-webkit-outer-spin-button,
+.field input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.field input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
 .field .mat-mdc-text-field-input {
   color: #e2e8f0 !important;
 }
@@ -378,3 +389,46 @@
   color: #38bdf8;
   background: rgba(56, 189, 248, 0.1);
 }
+
+:host-context(body.light-theme) .field input,
+:host-context(body.light-theme) .field select,
+:host-context(body.light-theme) .field textarea,
+:host-context(body.light-theme) .dropdown-trigger,
+:host-context(body.light-theme) .dropdown-menu {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .field input::placeholder {
+  color: #B0957A !important;
+}
+
+:host-context(body.light-theme) .field input:hover,
+:host-context(body.light-theme) .field select:hover,
+:host-context(body.light-theme) .dropdown-trigger:hover {
+  border-color: #8C6D53 !important;
+  background: #FAF9F6 !important;
+}
+
+:host-context(body.light-theme) .field input:focus,
+:host-context(body.light-theme) .field select:focus {
+  border-color: #5C3D2E !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 0 0 3px rgba(92,61,46,0.08) !important;
+}
+
+:host-context(body.light-theme) .dropdown-item {
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .dropdown-item:hover {
+  background: #EADCC9 !important;
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .dropdown-item.active {
+  background: #EADCC9 !important;
+  color: #5C3D2E !important;
+}
+

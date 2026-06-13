@@ -41,6 +41,28 @@ export class AuthService {
     return !!this.getToken();
   }
 
+  isAdmin(): boolean {
+    return this.getGroups().includes('ADM');
+  }
+
+  isUser(): boolean {
+    return this.getGroups().includes('USER');
+  }
+
+  private getGroups(): string[] {
+    const token = this.getToken();
+    if (!token) return [];
+
+    try {
+      const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      const payload = JSON.parse(atob(base64));
+      const groups = payload.groups || payload.roles || [];
+      return Array.isArray(groups) ? groups : [groups];
+    } catch {
+      return [];
+    }
+  }
+
   register(dto: { email: string; senha: string }): Observable<void> {
     return this.httpClient.post(`${this.api}/register`, dto, {
       observe: 'response',

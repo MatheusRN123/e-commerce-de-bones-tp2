@@ -87,8 +87,12 @@ export class EstoqueList implements OnInit {
         // Fecha painel ao recarregar
         this.expandedRow = null;
       },
-      error: () =>
-        this.snackBar.open('Erro ao carregar os estoques.', 'Fechar', { duration: 3000 }),
+      error: (error) => {
+        const message = error?.status === 403
+          ? 'Apenas administradores podem carregar os estoques.'
+          : 'Erro ao carregar os estoques.';
+        this.snackBar.open(message, 'Fechar', { duration: 3000 });
+      },
     });
   }
 

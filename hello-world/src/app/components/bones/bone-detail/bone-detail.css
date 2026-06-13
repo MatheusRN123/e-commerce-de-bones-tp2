@@ -1,0 +1,219 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #080c18;
+  color: #e8edf7;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.detail-page {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.back-link {
+  color: #7dd3fc !important;
+  margin-bottom: 18px;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 520px) 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.image-panel,
+.info-panel {
+  background: #0e1628;
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  border-radius: 8px;
+}
+
+.image-panel {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-panel {
+  padding: 30px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #7dd3fc;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+}
+
+h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+.price {
+  display: inline-block;
+  color: #38bdf8;
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+}
+
+.stock-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.stock-badge,
+.color-pill,
+.stamp-list span {
+  border-radius: 999px;
+  padding: 6px 12px;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  background: rgba(56, 189, 248, 0.08);
+  color: #7dd3fc;
+}
+
+.stock-badge.empty {
+  border-color: rgba(248, 113, 113, 0.25);
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 24px;
+}
+
+.spec-grid div {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
+}
+
+dt {
+  color: #8aa0c7;
+  font-size: 0.78rem;
+  margin-bottom: 4px;
+}
+
+dd {
+  margin: 0;
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.stamp-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.primary-action {
+  background: #38bdf8 !important;
+  color: #080c18 !important;
+}
+
+.secondary-action {
+  border-color: rgba(56, 189, 248, 0.32) !important;
+  color: #e8edf7 !important;
+}
+
+.loading-state {
+  color: #94a3b8;
+  padding: 40px;
+}
+
+@media (max-width: 840px) {
+  :host {
+    padding: 18px;
+  }
+
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .image-panel {
+    min-height: 300px;
+  }
+
+  .spec-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+:host-context(body.light-theme) {
+  background: #F9F6F0;
+  color: #5C3D2E;
+}
+:host-context(body.light-theme) .back-link {
+  color: #8C6D53 !important;
+}
+:host-context(body.light-theme) .image-panel,
+:host-context(body.light-theme) .info-panel,
+:host-context(body.light-theme) .loading-state {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+}
+:host-context(body.light-theme) .eyebrow {
+  color: #A07850 !important;
+}
+:host-context(body.light-theme) h1 {
+  color: #5C3D2E !important;
+}
+:host-context(body.light-theme) .price {
+  color: #5C3D2E !important;
+}
+:host-context(body.light-theme) .stock-badge,
+:host-context(body.light-theme) .color-pill,
+:host-context(body.light-theme) .stamp-list span {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #7A5A40 !important;
+}
+:host-context(body.light-theme) .stock-badge.empty {
+  background: rgba(220,38,38,0.1) !important;
+  border-color: rgba(220,38,38,0.25) !important;
+  color: #B91C1C !important;
+}
+:host-context(body.light-theme) .spec-grid div {
+  border-top-color: #DCCFBD !important;
+}
+:host-context(body.light-theme) dt {
+  color: #A07850 !important;
+}
+:host-context(body.light-theme) dd {
+  color: #5C3D2E !important;
+}
+:host-context(body.light-theme) .primary-action {
+  background: #5C3D2E !important;
+  color: #FAF9F6 !important;
+}
+:host-context(body.light-theme) .secondary-action {
+  border-color: #DCCFBD !important;
+  color: #8C6D53 !important;
+  background: #FAF9F6 !important;
+}

@@ -1,0 +1,37 @@
+<section class="wishlist-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Minha conta</p>
+      <h1>Lista de desejos</h1>
+    </div>
+    <button mat-stroked-button routerLink="/menu">
+      <mat-icon>arrow_back</mat-icon>
+      Voltar aos produtos
+    </button>
+  </header>
+
+  <div class="empty-state" *ngIf="!loading && !bones.length">
+    <mat-icon>favorite_border</mat-icon>
+    <h2>Nenhum produto salvo</h2>
+    <p>Use o coracao na lista ou no detalhe do produto para adicionar itens.</p>
+  </div>
+
+  <div class="wishlist-grid" *ngIf="bones.length">
+    <article class="wishlist-card" *ngFor="let bone of bones">
+      <a [routerLink]="['/produto', bone.id]" [queryParams]="{ returnUrl: '/wishlist' }" class="image-link">
+        <img [src]="getUrlImagem(bone.imagemFid)" [alt]="bone.nome" />
+      </a>
+      <div class="card-body">
+        <p class="meta">{{ bone.nomeMarca }} / {{ bone.nomeModelo }}</p>
+        <h2>{{ bone.nome }}</h2>
+        <span class="price">{{ bone.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+        <div class="card-actions">
+          <button mat-flat-button [routerLink]="['/produto', bone.id]" [queryParams]="{ returnUrl: '/wishlist' }">Ver detalhe</button>
+          <button mat-icon-button (click)="remover(bone)" aria-label="Remover dos desejos">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

@@ -1,21 +1,45 @@
 <section class="bone-menu-page">
   <header class="page-header">
     <div class="header-text">
-      <h1>Catálogo de <span class="accent">Bonés</span></h1>
-      <p>Escolha seu boné favorito com preço e imagem.</p>
+      <h1>Catalogo de <span class="accent">Bones</span></h1>
+      <p>Escolha seu produto favorito, veja detalhes e salve desejos.</p>
     </div>
-    <div class="header-badge">{{ bones.length }} itens</div>
+    <div class="header-badge">{{ totalRecords }} itens</div>
   </header>
+
+  <div class="catalog-tools">
+    <label class="search-field">
+      <span>Buscar produto</span>
+      <input
+        type="search"
+        [(ngModel)]="termoBusca"
+        (ngModelChange)="onSearchChange()"
+        (keyup.enter)="aplicarFiltro()"
+        placeholder="Nome, marca, modelo, material ou cor" />
+    </label>
+    <button type="button" class="search-button" (click)="aplicarFiltro()">Buscar</button>
+    <a class="wishlist-link" routerLink="/wishlist">Minha lista de desejos</a>
+  </div>
 
   <div *ngIf="isLoading" class="loading-state">
     <div class="spinner"></div>
-    <span>Carregando bonés...</span>
+    <span>Carregando bones...</span>
   </div>
 
   <div class="cards-grid" *ngIf="!isLoading && bones.length">
     <article class="product-card" *ngFor="let bone of bones">
       <div class="card-image-wrap">
-        <img [src]="getImage(bone)" [alt]="bone.nome" />
+        <a [routerLink]="['/produto', bone.id]" aria-label="Ver detalhe do produto">
+          <img [src]="getImage(bone)" [alt]="bone.nome" />
+        </a>
+        <button
+          type="button"
+          class="wishlist-button"
+          [class.active]="estaNaListaDesejos(bone)"
+          (click)="alternarListaDesejos(bone)"
+          [attr.aria-label]="estaNaListaDesejos(bone) ? 'Remover dos desejos' : 'Adicionar aos desejos'">
+          {{ estaNaListaDesejos(bone) ? '♥' : '♡' }}
+        </button>
         <div class="card-price-badge">
           {{ bone.preco | currency:'BRL':'symbol':'1.2-2' }}
         </div>
@@ -27,11 +51,32 @@
           <span class="tag tag-model" *ngIf="bone.nomeModelo">{{ bone.nomeModelo }}</span>
         </div>
         <div class="card-details">
-          <span *ngIf="bone.cor">🎨 {{ bone.cor }}</span>
-          <span *ngIf="bone.nomeMaterial">🧵 {{ bone.nomeMaterial }}</span>
+          <span *ngIf="bone.cor">{{ bone.cor }}</span>
+          <span *ngIf="bone.nomeMaterial">{{ bone.nomeMaterial }}</span>
+        </div>
+        <div class="card-actions">
+          <a class="detail-link" [routerLink]="['/produto', bone.id]">Ver detalhe</a>
+          <button type="button" class="cart-button" (click)="adicionarCarrinho(bone)" [disabled]="bone.quantidadeEstoque === 0">
+            {{ bone.quantidadeEstoque === 0 ? 'Esgotado' : 'Adicionar ao carrinho' }}
+          </button>
         </div>
       </div>
     </article>
+  </div>
+
+  <div class="catalog-pagination" *ngIf="!isLoading && totalRecords > 0">
+    <button type="button" (click)="goPrevious()" [disabled]="!canGoPrevious()">Anterior</button>
+    <span>Pagina {{ page + 1 }} de {{ totalPages() }}</span>
+    <button type="button" (click)="goNext()" [disabled]="!canGoNext()">Proxima</button>
+    <label>
+      Itens
+      <select [ngModel]="pageSize" (ngModelChange)="changePageSize($event)">
+        <option [value]="8">8</option>
+        <option [value]="12">12</option>
+        <option [value]="16">16</option>
+        <option [value]="24">24</option>
+      </select>
+    </label>
   </div>
 
   <div *ngIf="!isLoading && !bones.length" class="empty-state">
@@ -40,6 +85,6 @@
       <line x1="12" y1="8" x2="12" y2="12"/>
       <line x1="12" y1="16" x2="12.01" y2="16"/>
     </svg>
-    <p>Nenhum boné encontrado para exibir.</p>
+    <p>Nenhum bone encontrado para exibir.</p>
   </div>
 </section>

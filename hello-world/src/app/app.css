@@ -144,11 +144,231 @@ body {
 /* CONTENT */
 
 .app-content {
+  position: relative;
   padding: 28px 32px;
 }
 
 .app-shell.public-shell .app-content {
   padding: 0;
+}
+
+.top-shortcuts {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+}
+
+.top-shortcuts a {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: #7dd3fc;
+  background: rgba(14, 22, 40, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+.top-shortcuts a:hover {
+  color: #080c18;
+  background: #38bdf8;
+}
+
+.theme-toggle {
+  margin: auto 12px 16px;
+  height: 38px;
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #8aa0c7;
+  display: grid;
+  grid-template-columns: 1fr 26px 1fr;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 8px;
+  display: none !important;
+}
+
+.toggle-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #38bdf8;
+  transform: translateX(-22px);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.theme-toggle.light .toggle-thumb {
+  transform: translateX(22px);
+  background: #8C6D53;
+}
+
+.floating-theme-toggle {
+  position: fixed;
+  right: 22px;
+  bottom: 20px;
+  z-index: 30;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 999px;
+  background: rgba(14, 22, 40, 0.92);
+  color: #7dd3fc;
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.32);
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.floating-theme-toggle:hover {
+  transform: translateY(-1px);
+  background: #38bdf8;
+  color: #080c18;
+}
+
+.floating-theme-toggle mat-icon {
+  font-size: 19px;
+  width: 19px;
+  height: 19px;
+}
+
+body.light-theme {
+  background: #F9F6F0;
+  color: #8C6D53;
+}
+
+body.light-theme .app-shell,
+body.light-theme .app-content,
+body.light-theme main,
+body.light-theme section,
+body.light-theme .bone-menu-page,
+body.light-theme app-bone-list,
+body.light-theme app-bone-form,
+body.light-theme app-marca-list,
+body.light-theme app-material-list,
+body.light-theme app-modelo-list,
+body.light-theme app-estampa-list,
+body.light-theme app-estoque-list,
+body.light-theme app-usuario-admin,
+body.light-theme app-usuario-form,
+body.light-theme app-wishlist-list,
+body.light-theme app-bone-detail,
+body.light-theme app-cart,
+body.light-theme app-user-profile,
+body.light-theme app-checkout-page,
+body.light-theme app-purchase-summary,
+body.light-theme app-login,
+body.light-theme app-register,
+body.light-theme app-forgot-password,
+body.light-theme app-reset-password {
+  background: #F9F6F0 !important;
+  color: #8C6D53 !important;
+}
+
+body.light-theme .app-sidebar,
+body.light-theme .checkout-section,
+body.light-theme .summary-panel,
+body.light-theme .profile-card,
+body.light-theme .history-section,
+body.light-theme .order-card,
+body.light-theme .address-card,
+body.light-theme .empty-state,
+body.light-theme .loading-state,
+body.light-theme .auth-card,
+body.light-theme .card,
+body.light-theme .detail-card,
+body.light-theme .cart-card,
+body.light-theme .cart-item,
+body.light-theme .coupon-card,
+body.light-theme .form-card,
+body.light-theme .toolbar,
+body.light-theme .stat-card,
+body.light-theme .filter-card,
+body.light-theme .table-card,
+body.light-theme .page-header,
+body.light-theme .product-card,
+body.light-theme .wishlist-card,
+body.light-theme .info-panel,
+body.light-theme .image-panel,
+body.light-theme .quick-modal,
+body.light-theme .top-shortcuts a,
+body.light-theme .profile-tabs button,
+body.light-theme .payment-tabs,
+body.light-theme .saved-card-panel,
+body.light-theme .readonly-field {
+  background: #EADCC9 !important;
+  border-color: rgba(140, 109, 83, 0.22) !important;
+  color: #8C6D53 !important;
+}
+
+body.light-theme input,
+body.light-theme select,
+body.light-theme textarea,
+body.light-theme option,
+body.light-theme .dropdown-trigger,
+body.light-theme .dropdown-menu,
+body.light-theme .estampas-list,
+body.light-theme .order-item,
+body.light-theme .saved-card-grid button,
+body.light-theme .address-form,
+body.light-theme .payment-form,
+body.light-theme .summary-item,
+body.light-theme .summary-total {
+  background: #FAF9F6 !important;
+  border-color: rgba(140, 109, 83, 0.28) !important;
+  color: #8C6D53 !important;
+}
+
+body.light-theme a,
+body.light-theme .accent,
+body.light-theme .brand-accent,
+body.light-theme .nav-links a.active,
+body.light-theme .nav-icons a.active,
+body.light-theme .header-text h1,
+body.light-theme .header-left h1,
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme label,
+body.light-theme .section-label,
+body.light-theme .toolbar-title,
+body.light-theme .stat-value,
+body.light-theme p,
+body.light-theme span,
+body.light-theme small,
+body.light-theme strong,
+body.light-theme mat-icon {
+  color: #8C6D53 !important;
+}
+
+body.light-theme .btn-save,
+body.light-theme .btn-add,
+body.light-theme .cart-button,
+body.light-theme .search-button,
+body.light-theme .primary-action,
+body.light-theme .finish-button,
+body.light-theme .profile-card button[mat-flat-button],
+body.light-theme .order-detail-link,
+body.light-theme .profile-tabs button.active,
+body.light-theme .payment-tabs button.active {
+  background: #8C6D53 !important;
+  color: #FAF9F6 !important;
+}
+
+body.light-theme .nav-links a:hover,
+body.light-theme .nav-icons a:hover,
+body.light-theme .top-shortcuts a:hover,
+body.light-theme .floating-theme-toggle,
+body.light-theme .floating-theme-toggle:hover {
+  background: #FAF9F6 !important;
+  color: #8C6D53 !important;
+  border-color: rgba(140, 109, 83, 0.28) !important;
 }
 
 /* RESPONSIVO */
@@ -178,3 +398,13 @@ body {
     padding: 20px 16px;
   }
 }
+
+:host-context(body.light-theme) .brand {
+  color: #000000 !important;
+  text-shadow: 0 1px 2px rgba(92, 61, 46, 0.3);
+}
+
+:host-context(body.light-theme) .brand-accent {
+  color: #5C3D2E !important;
+}
+

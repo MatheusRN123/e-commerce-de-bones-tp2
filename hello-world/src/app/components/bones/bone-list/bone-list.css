@@ -169,10 +169,18 @@
 /* ---- FILTER CARD ---- */
 .filter-card {
   background: #0e1628;
-  border-radius: 14px;
+  border-radius: 20px !important;
   padding: 10px 16px;
   margin-bottom: 14px;
   border: 1px solid rgba(255,255,255,0.05);
+}
+
+.filter-field .mdc-text-field--outlined .mdc-notched-outline__leading {
+  border-radius: 12px 0 0 12px !important;
+}
+
+.filter-field .mdc-text-field--outlined .mdc-notched-outline__trailing {
+  border-radius: 0 12px 12px 0 !important;
 }
 
 .filter-row {
@@ -261,8 +269,9 @@
 /* ---- Lupa de Busca ---- */
 .search-button {
   color: #38bdf8 !important;
-  border-radius: 10px;
+  border-radius: 8px !important;
   transition: background 0.2s, transform 0.2s;
+  margin-right: 6px !important;
 }
 
 .search-button:hover {
@@ -620,4 +629,146 @@ mat-paginator .mat-mdc-paginator-page-size-label {
 @media (max-width: 480px) {
   .stats-bar { grid-template-columns: 1fr; }
   .col-toggle { display: none; }
+}
+
+:host-context(body.light-theme) .td-nome {
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .price-badge {
+  background: #5C3D2E !important;
+  color: #FAF9F6 !important;
+  border-color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .cor-pill {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #7A5A40 !important;
+}
+
+:host-context(body.light-theme) .estampa-tag {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #7A5A40 !important;
+}
+
+:host-context(body.light-theme) .col-btn.on {
+  background: #EADCC9 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .col-btn {
+  border-color: #DCCFBD !important;
+  color: #A07850 !important;
+}
+
+:host-context(body.light-theme) .search-button {
+  background: #5C3D2E !important;
+  color: #EADCC9 !important;
+}
+:host-context(body.light-theme) .search-button mat-icon {
+  color: #EADCC9 !important;
+}
+:host-context(body.light-theme) .search-button:hover {
+  background: #EADCC9 !important;
+}
+:host-context(body.light-theme) .search-button:hover mat-icon {
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .stat-icon {
+  background: #EADCC9 !important;
+}
+
+:host-context(body.light-theme) .stat-icon mat-icon {
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .thumb-imagem {
+  border-color: #DCCFBD !important;
+}
+
+:host-context(body.light-theme) .td-num {
+  color: #C4A882 !important;
+}
+
+:host-context(body.light-theme) .custom-table th.mat-mdc-header-cell {
+  background: #5C3D2E !important;
+  color: #FAF9F6 !important;
+  border-bottom-color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .custom-table td.mat-mdc-cell {
+  color: #5C3D2E !important;
+  border-bottom-color: #EADCC9 !important;
+}
+
+:host-context(body.light-theme) .custom-table tr.mat-mdc-row:hover td {
+  background: #F0EAE0 !important;
+}
+
+:host-context(body.light-theme) mat-paginator {
+  background: #FAF9F6 !important;
+  color: #8C6D53 !important;
+  border-top-color: #DCCFBD !important;
+}
+
+:host-context(body.light-theme) .chip {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .chip:hover {
+  background: #FFFFFF !important;
+  border-color: #C4A882 !important;
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .chip.active {
+  background: #5C3D2E !important;
+  border-color: #5C3D2E !important;
+  color: #FAF9F6 !important;
+}
+
+:host-context(body.light-theme) .stock-ok {
+  background: rgba(34,139,34,0.1) !important;
+  border-color: rgba(34,139,34,0.25) !important;
+  color: #2E7D32 !important;
+}
+
+:host-context(body.light-theme) .stock-low {
+  background: rgba(217,119,6,0.1) !important;
+  border-color: rgba(217,119,6,0.25) !important;
+  color: #B45309 !important;
+}
+
+:host-context(body.light-theme) .stock-zero {
+  background: rgba(220,38,38,0.1) !important;
+  border-color: rgba(220,38,38,0.25) !important;
+  color: #B91C1C !important;
+}
+:host-context(body.light-theme) mat-paginator .mat-mdc-icon-button:not(:disabled):hover {
+  background: #EADCC9 !important;
+  color: #5C3D2E !important;
+}
+:host-context(body.light-theme) .mat-column-numero .mat-mdc-cell {
+  color: #C4A882 !important;
+}
+:host-context(body.light-theme) .btn-add {
+  background: #5C3D2E !important;
+  box-shadow: 0 4px 14px rgba(92,61,46,0.25) !important;
+}
+
+:host-context(body.light-theme) .btn-add:hover {
+  box-shadow: 0 6px 20px rgba(92,61,46,0.35) !important;
+}
+:host-context(body.light-theme) .filter-card input.mat-mdc-input-element {
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .filter-card input.mat-mdc-input-element::placeholder {
+  color: #B0957A !important;
 }

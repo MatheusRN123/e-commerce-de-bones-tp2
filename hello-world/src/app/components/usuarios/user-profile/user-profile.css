@@ -1,0 +1,486 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #080c18;
+  color: #e8edf7;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.profile-page {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #7dd3fc;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.role-pill {
+  display: inline-block;
+  margin-top: 10px;
+  color: #7dd3fc;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-weight: 800;
+  font-size: 0.78rem;
+}
+
+.profile-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+
+.profile-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: 999px;
+  background: rgba(14, 22, 40, 0.84);
+  color: #8aa0c7;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 8px 13px;
+}
+
+.profile-tabs button.active,
+.profile-tabs button:hover {
+  background: #38bdf8;
+  color: #080c18;
+}
+
+.profile-tabs mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: start;
+}
+
+.profile-layout.single-column {
+  grid-template-columns: 1fr;
+}
+
+.profile-main {
+  display: grid;
+  gap: 18px;
+}
+
+.profile-card,
+.history-section,
+.order-card,
+.empty-state,
+.loading-state {
+  background: #0e1628;
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  border-radius: 8px;
+}
+
+.profile-card,
+.history-section {
+  padding: 20px;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.profile-card p,
+.identity-card span,
+.order-card span,
+.empty-state,
+.loading-state {
+  color: #94a3b8;
+}
+
+.profile-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-card label span {
+  color: #8aa0c7;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.profile-card input,
+.profile-card select {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: 8px;
+  color: #e8edf7;
+  padding: 11px 12px;
+  outline: none;
+}
+
+.profile-card button[mat-flat-button] {
+  background: #38bdf8;
+  color: #080c18;
+}
+
+.address-list {
+  display: grid;
+  gap: 10px;
+}
+
+.address-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(56, 189, 248, 0.12);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.address-card span {
+  display: block;
+  margin-top: 4px;
+  color: #94a3b8;
+}
+
+.address-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.address-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.address-form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.compact {
+  padding: 16px;
+}
+
+.identity-card {
+  align-items: center;
+  text-align: center;
+  position: sticky;
+  top: 24px;
+}
+
+.identity-card mat-icon {
+  color: #38bdf8;
+  font-size: 58px;
+  width: 58px;
+  height: 58px;
+}
+
+.history-section {
+  margin-top: 20px;
+}
+
+.history-section header {
+  margin-bottom: 16px;
+}
+
+.order-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  margin-top: 10px;
+}
+
+.order-card span {
+  display: block;
+  margin-top: 4px;
+}
+
+.order-header,
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.order-total {
+  text-align: right;
+}
+
+.order-address {
+  color: #8aa0c7;
+  font-size: 0.86rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.08);
+}
+
+.order-items {
+  display: grid;
+  gap: 8px;
+}
+
+.order-item {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(56, 189, 248, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.order-item small {
+  display: block;
+  margin-top: 3px;
+  color: #94a3b8;
+}
+
+.order-detail-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  align-self: flex-end;
+  background: #38bdf8;
+  color: #080c18;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.empty-state,
+.loading-state {
+  padding: 32px 20px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .identity-card {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  :host {
+    padding: 18px;
+  }
+
+  .order-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .address-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+:host-context(body.light-theme) {
+  background: #F9F6F0;
+  color: #5C3D2E;
+}
+
+:host-context(body.light-theme) .page-header {
+  background: #EADCC9 !important;
+  border-radius: 10px !important;
+  padding: 18px 24px !important;
+  margin-bottom: 20px !important;
+}
+
+:host-context(body.light-theme) .eyebrow {
+  color: #A07850 !important;
+}
+
+:host-context(body.light-theme) h1 {
+  font-family: 'Syne', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -1px !important;
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .role-pill {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .profile-tabs button {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .profile-tabs button.active,
+:host-context(body.light-theme) .profile-tabs button:hover {
+  background: #5C3D2E !important;
+  color: #FAF9F6 !important;
+}
+
+:host-context(body.light-theme) .profile-card,
+:host-context(body.light-theme) .history-section,
+:host-context(body.light-theme) .order-card,
+:host-context(body.light-theme) .empty-state,
+:host-context(body.light-theme) .loading-state {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+}
+
+:host-context(body.light-theme) .profile-card input,
+:host-context(body.light-theme) .profile-card select {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #5C3D2E !important;
+}
+
+:host-context(body.light-theme) .profile-card label span {
+  color: #A07850 !important;
+}
+
+:host-context(body.light-theme) .profile-card p,
+:host-context(body.light-theme) .identity-card span,
+:host-context(body.light-theme) .order-card span {
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .profile-card button[mat-flat-button],
+:host-context(body.light-theme) .order-detail-link {
+  background: #5C3D2E !important;
+  color: #FAF9F6 !important;
+}
+
+:host-context(body.light-theme) .address-card,
+:host-context(body.light-theme) .order-item {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+}
+
+:host-context(body.light-theme) .address-card span {
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .address-form {
+  border-top-color: #DCCFBD !important;
+}
+
+:host-context(body.light-theme) .order-address {
+  color: #A07850 !important;
+  border-bottom-color: #DCCFBD !important;
+}
+
+:host-context(body.light-theme) .order-item small {
+  color: #A07850 !important;
+}
+
+:host-context(body.light-theme) .identity-card mat-icon {
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .address-form {
+  gap: 16px !important;
+  border-top: none !important;
+  padding-top: 0 !important;
+}
+
+:host-context(body.light-theme) .address-form label {
+  background: #FAF9F6 !important;
+  border: 1px solid #DCCFBD !important;
+  border-radius: 10px !important;
+  padding: 14px !important;
+}
+
+:host-context(body.light-theme) .address-form label input {
+  background: #FFFFFF !important;
+  border: 1px solid #DCCFBD !important;
+  border-radius: 8px !important;
+}
+
+:host-context(body.light-theme) .address-form-actions {
+  border-top: 1px solid #DCCFBD !important;
+  padding-top: 16px !important;
+  margin-top: 4px !important;
+}
+
+:host-context(body.light-theme) .address-list {
+  gap: 12px !important;
+}
+
+:host-context(body.light-theme) .address-card {
+  border-radius: 10px !important;
+}
+
+:host-context(body.light-theme) .empty-state.compact {
+  border-radius: 10px !important;
+}
+:host-context(body.light-theme) .page-header button[mat-stroked-button] {
+  background: #FAF9F6 !important;
+  border-color: #DCCFBD !important;
+  color: #8C6D53 !important;
+}
+
+:host-context(body.light-theme) .address-form-actions {
+  background: transparent !important;
+}
+
+:host-context(body.light-theme) form.address-form {
+  background: transparent !important;
+}
+
+:host-context(body.light-theme) .empty-state.compact {
+  background: #FAF9F6 !important;
+  border: 1px solid #DCCFBD !important;
+  color: #A07850 !important;
+}
+
+:host-context(body.light-theme) .address-form label input::placeholder {
+  color: #B0957A !important;
+}
+
+:host-context(body.light-theme) .address-form label input {
+  color: #5C3D2E !important;
+}
+

@@ -1,0 +1,71 @@
+<section class="detail-page" *ngIf="bone && !loading">
+  <button mat-button class="back-link" [routerLink]="returnUrl">
+    <mat-icon>arrow_back</mat-icon>
+    Voltar
+  </button>
+
+  <div class="detail-layout">
+    <div class="image-panel">
+      <img [src]="getUrlImagem(bone.imagemFid)" [alt]="bone.nome" />
+    </div>
+
+    <div class="info-panel">
+      <div class="product-heading">
+        <p class="eyebrow">{{ bone.nomeMarca }} / {{ bone.nomeModelo }}</p>
+        <h1>{{ bone.nome }}</h1>
+        <span class="price">{{ bone.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+      </div>
+
+      <div class="stock-row">
+        <span class="stock-badge" [class.empty]="bone.quantidadeEstoque === 0">
+          {{ bone.quantidadeEstoque > 0 ? bone.quantidadeEstoque + ' em estoque' : 'Esgotado' }}
+        </span>
+        <span class="color-pill">{{ bone.cor }}</span>
+      </div>
+
+      <dl class="spec-grid">
+        <div>
+          <dt>Material</dt>
+          <dd>{{ bone.nomeMaterial }}</dd>
+        </div>
+        <div>
+          <dt>Categoria da aba</dt>
+          <dd>{{ bone.categoriaAba }}</dd>
+        </div>
+        <div>
+          <dt>Tamanho da aba</dt>
+          <dd>{{ bone.tamanhoAba }}</dd>
+        </div>
+        <div>
+          <dt>Profundidade</dt>
+          <dd>{{ bone.profundidade }}</dd>
+        </div>
+        <div>
+          <dt>Circunferencia</dt>
+          <dd>{{ bone.circunferencia }}</dd>
+        </div>
+        <div>
+          <dt>Bordado</dt>
+          <dd>{{ bone.bordado || 'Sem bordado' }}</dd>
+        </div>
+      </dl>
+
+      <div class="stamp-list" *ngIf="bone.estampas?.length">
+        <span *ngFor="let estampa of bone.estampas">{{ estampa.nome }}</span>
+      </div>
+
+      <div class="actions">
+        <button mat-flat-button class="primary-action" (click)="adicionarCarrinho()" [disabled]="bone.quantidadeEstoque === 0">
+          <mat-icon>shopping_cart</mat-icon>
+          Adicionar ao carrinho
+        </button>
+        <button mat-stroked-button class="secondary-action" (click)="toggleWishlist()">
+          <mat-icon>{{ inWishlist ? 'favorite' : 'favorite_border' }}</mat-icon>
+          {{ inWishlist ? 'Remover dos desejos' : 'Adicionar aos desejos' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="loading-state" *ngIf="loading">Carregando produto...</div>

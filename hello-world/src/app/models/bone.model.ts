@@ -4,6 +4,7 @@ export interface Bone {
   id: number;
   nome: string;
   imagemFid?: string;
+  imagemUrl?: string;
   cor: string;
   nomeMaterial: string;
   idMaterial: number;

@@ -21,28 +21,54 @@
       @if (sidebarOpen) {
         <nav class="nav-links">
           <a routerLink="/menu" routerLinkActive="active">Catalogo</a>
-          <a routerLink="/bones" routerLinkActive="active">Bones</a>
-          <a routerLink="/marcas" routerLinkActive="active">Marcas</a>
-          <a routerLink="/materiais" routerLinkActive="active">Materiais</a>
-          <a routerLink="/modelos" routerLinkActive="active">Modelos</a>
-          <a routerLink="/estoques" routerLinkActive="active">Estoques</a>
-          <a routerLink="/estampas" routerLinkActive="active">Estampas</a>
+          <a routerLink="/wishlist" routerLinkActive="active">Desejos</a>
+          <a routerLink="/carrinho" routerLinkActive="active">Carrinho</a>
+          @if (isAdmin) {
+            <a routerLink="/bones" routerLinkActive="active">Bones</a>
+            <a routerLink="/cupons" routerLinkActive="active">Cupons</a>
+            <a routerLink="/usuarios" routerLinkActive="active">Usuarios</a>
+            <a routerLink="/estoques" routerLinkActive="active">Estoques</a>
+            <a routerLink="/marcas" routerLinkActive="active">Marcas</a>
+            <a routerLink="/materiais" routerLinkActive="active">Materiais</a>
+            <a routerLink="/modelos" routerLinkActive="active">Modelos</a>
+            <a routerLink="/estampas" routerLinkActive="active">Estampas</a>
+          }
         </nav>
       } @else {
         <nav class="nav-icons">
-          <a routerLink="/menu" routerLinkActive="active" title="Catalogo">📚</a>
-          <a routerLink="/bones" routerLinkActive="active" title="Bones">🧢</a>
-          <a routerLink="/marcas" routerLinkActive="active" title="Marcas">🏷️</a>
-          <a routerLink="/materiais" routerLinkActive="active" title="Materiais">🧵</a>
-          <a routerLink="/modelos" routerLinkActive="active" title="Modelos">📐</a>
-          <a routerLink="/estoques" routerLinkActive="active" title="Estoques">📦</a>
-          <a routerLink="/estampas" routerLinkActive="active" title="Estampas">🎨</a>
+          <a routerLink="/menu"       routerLinkActive="active"       title="Catalogo">🧢</a>
+          <a routerLink="/wishlist"       routerLinkActive="active"       title="Desejos">❤️</a>
+          <a routerLink="/carrinho"       routerLinkActive="active"       title="Carrinho">🛒</a>
+          @if (isAdmin) {
+            <a routerLink="/bones"      routerLinkActive="active"     title="Bones">📦</a>
+            <a routerLink="/cupons"       routerLinkActive="active"       title="Cupons">🎟️</a>
+            <a routerLink="/usuarios"       routerLinkActive="active"       title="Usuarios">👥</a>
+            <a routerLink="/estoques"       routerLinkActive="active"       title="Estoques">📊</a>
+            <a routerLink="/marcas"       routerLinkActive="active"       title="Marcas">🏷️</a>
+            <a routerLink="/materiais"      routerLinkActive="active"     title="Materiais">🧵</a>
+            <a routerLink="/modelos"      routerLinkActive="active"     title="Modelos">📐</a>
+            <a routerLink="/estampas"       routerLinkActive="active"       title="Estampas">🎨</a>
+          }
         </nav>
       }
     </aside>
   }
 
   <main class="app-content">
+    @if (!isPublicRoute) {
+      <div class="top-shortcuts">
+        <a routerLink="/carrinho" title="Carrinho" aria-label="Carrinho">
+          <mat-icon>shopping_cart</mat-icon>
+        </a>
+        <a routerLink="/perfil" title="Meu perfil" aria-label="Meu perfil">
+          <mat-icon>account_circle</mat-icon>
+        </a>
+      </div>
+    }
     <router-outlet></router-outlet>
   </main>
+
+  <button type="button" class="floating-theme-toggle" [class.light]="lightTheme" (click)="toggleTheme()" aria-label="Alternar tema claro e escuro">
+    <mat-icon>{{ lightTheme ? 'dark_mode' : 'light_mode' }}</mat-icon>
+  </button>
 </div>
